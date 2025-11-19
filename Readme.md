@@ -9,3 +9,6 @@ Publier sur GitHub : pour créer un reporitory sur Git hub et de faire un puch p
 J'ai installé Git Basch 
 installation de PHP
 extention PHP Server 
+instalation npm sur le pc 
+installation de Bootstrap 
+installation de Bootstrap icons
