@@ -14,15 +14,66 @@
     <title>Document</title>
 </head>
 <body>
-    <button class="btn btn-primary">Cliquez ici</button>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <header>Le menu <i class="bi bi-android2"></i></header>
+<header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid ms-4 ms-md-4 ms-lg-5">
+              <a class="navbar-brand" id="navbar-title" href="/">Vite & Gourmand</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">   
+                  <li class="nav-item" data-show ="connected">
+                    <a class="nav-link" href="/account">Mon Compte</a>
+                  </li>             
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Accueil</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/covoit">Les Menus</a>
+                  </li>
+                  <li class="nav-item" data-show ="disconnected">
+                    <a class="nav-link" href="signin">Connexion</a>
+                  </li>
+                  <li class="nav-item" data-show ="connected">
+                    <button class="nav-link" id="signout-btn">Déconnexion</button>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="contact">Contact</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+       </header>
        
     <main id="main-page">
         <!--Le contenu de la page sera injecter ici -->
     </main>
-    <footer>Le footer de mon site</footer>
+
+    <footer class="footer text-center" style= "padding: 20px 0;">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-4">
+            <p class="text"><u>Contact :</u><br/>
+              <a class="nav-link" href="/contact">contact@viteetgrourmand.fr</a>
+              <a class="nav-link" href="">06.00.00.00.00</a>
+          </div>
+          <div class="col-lg-4">
+            <p class="text"><u>Nos horaires</u><br/>
+                         Du lundi au dimanche <br/>
+                         9:00-12:00  13:00-18:00<br/>
+                </p>
+          </div>
+          <div class="col-lg-4">
+            <p class="text"><u>Informations légales</u><br/>
+                <a class="nav-link" href="/mentions">Mentions légales</a>
+                <a class="nav-link" href="/CGV">Conditions Générales de Vente</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
     <script type="module" src="./Router/router.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>

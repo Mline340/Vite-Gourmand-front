@@ -11979,4 +11979,49 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+html {
+  position: relative;
+  min-height: 100%;
+  margin: 0%;
+  overflow-x: hidden;
+}
+
+nav {
+  background-color: #B03A51;
+  font-family: "Mooli", sans-serif;
+  color: white;
+}
+
+.navbar-brand {
+  color: white;
+}
+
+.nav-link {
+  color: white;
+  margin: 0 2rem;
+}
+
+#navbar-title {
+  font-family: "Great Vibes", sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 200%;
+}
+
+.hero-scene {
+  padding-top: 50px;
+  font-size: clamp(15px, 5vw, 35px);
+}
+
+main {
+  margin-bottom: 200px;
+}
+
+footer.footer {
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+  background-color: #B03A51;
+  font-family: "Mooli", sans-serif;
+  color: white;
 }/*# sourceMappingURL=main.css.map */
