@@ -12,3 +12,4 @@ extention PHP Server
 instalation npm sur le pc 
 installation de Bootstrap 
 installation de Bootstrap icons
+extention Live Sass Compiler
