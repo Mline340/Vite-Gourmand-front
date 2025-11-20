@@ -34,11 +34,35 @@ nav {
 }
 
 //Titre
-.hero-scene {
-    padding-top: 50px;
-    font-size: clamp(15px, 5vw, 35px);
-    //margin: 2vw;
+.hero-scene{
+    position: relative;
+    &::before{
+        content:"";
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-image: url(../image/herbes2.jpg);
+        background-size: cover;
+       
+    }
+
+    *{
+        //Positionner les éléments devant le ::before
+        position:relative;
+    }
+
+    .hero-scene-content{
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 }
+
+
 // Footer
 main{margin-bottom: 200px;}
 footer.footer {
