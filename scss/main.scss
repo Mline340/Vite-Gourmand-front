@@ -61,10 +61,50 @@ nav {
         justify-content: center;
     }
 }
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+//Les menus 
 
+.image-card{
+    position:relative;
+    &:hover{
+        .titre-image{
+            opacity: 1;
+        }
+        img{
+            filter: brightness(0.3);
+        }
+    }
 
+    img{
+        transition: all 0.3s;
+    }
+
+    .titre-image{
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: all 0.3s;
+    }
+}
+//Formulaires 
+.contact-container {
+            max-width: 600px;
+            margin: 50px auto;
+ }
+.form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+ }
 // Footer
-main{margin-bottom: 200px;}
+main{margin-bottom: 350px;}
 footer.footer {
     position: absolute;
     bottom: 0%;
