@@ -1,7 +1,7 @@
 # Vite & Gourmand 
 Site vitrine 
 
-# Installation 
+# Installation Front
 initialisation du projet 
 front : Pour la création de mon projet j'ai utilisé : 
 visual Studio Code comme éditeur de texte 
@@ -13,3 +13,5 @@ instalation npm sur le pc
 installation de Bootstrap 
 installation de Bootstrap icons
 extention Live Sass Compiler
+
+# Installation Back 
