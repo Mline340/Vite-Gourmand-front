@@ -1,101 +1,103 @@
-const tokenCookieName = "accesstoken";
-const RoleCookieName = "role";
+const apiUrl = "http://127.0.0.1:8000/api/";
 const signoutBtn = document.getElementById("signout-btn");
 
-signoutBtn.addEventListener("click", signout);
-
-function getRole(){
-    return getCookie(RoleCookieName);
+if (signoutBtn) {
+    signoutBtn.addEventListener("click", signout);
 }
 
-function signout(){
-    eraseCookie(tokenCookieName);
-    eraseCookie(RoleCookieName)
-    window.location.reload();
+// ===== GESTION DU TOKEN =====
+function setToken(token) {
+    localStorage.setItem("apiToken", token);
 }
 
-function setToken(token){
-    setCookie(tokenCookieName, token, 7);
+function getToken() {
+    return localStorage.getItem("apiToken");
 }
 
-function getToken(){
-    return getCookie(tokenCookieName);
+// ===== GESTION DU ROLE =====
+function setRole(role) {
+    localStorage.setItem("role", role);
 }
 
-function setCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+function getRole() {
+    return localStorage.getItem("role");
 }
 
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
+// ===== GESTION DE L'USER ID =====
+function setUserId(userId) {
+    localStorage.setItem("userId", userId);
 }
 
-function eraseCookie(name) {   
-    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+function getUserId() {
+    return localStorage.getItem("userId");
 }
 
-function isConnected(){
-    if(getToken() == null || getToken == undefined){
-        return false;
-    }
-    else{
-        return true;
-    }
+// ===== DÉCONNEXION =====
+function signout() {
+    localStorage.removeItem("apiToken");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userId");
+    window.location.href = "/signin";
 }
 
+// ===== VÉRIFICATION DE CONNEXION =====
+function isConnected() {
+    const token = getToken();
+    // On vérifie seulement le token, pas le userId
+    return token !== null && token !== undefined && token !== "";
+}
+
+// ===== AFFICHAGE SELON RÔLES =====
 /*
-disconnected
-connected (admin, employe, user)
-    -admin
-    -employe
-    -user
+Valeurs possibles pour data-show :
+- disconnected : visible uniquement si déconnecté
+- connected : visible uniquement si connecté
+- admin : visible uniquement si admin connecté
+- employe : visible uniquement si employé connecté
+- user : visible uniquement si user connecté
 */
-function showAndHideElementsForRoles(){
+function showAndHideElementsForRoles() {
     const userConnected = isConnected();
     const role = getRole();
 
+    console.log("🔐 État connexion:", userConnected ? "✅ Connecté" : "❌ Déconnecté");
+    console.log("👤 Rôle:", role || "Aucun");
+
     let allElementsToEdit = document.querySelectorAll('[data-show]');
 
-    allElementsToEdit.forEach(element =>{
-        switch(element.dataset.show){
+    allElementsToEdit.forEach(element => {
+        // Retirer d-none par défaut
+        element.classList.remove("d-none");
+
+        switch(element.dataset.show) {
             case 'disconnected': 
-                if(userConnected){
+                if(userConnected) {
                     element.classList.add("d-none");
                 }
                 break;
             case 'connected': 
-                if(!userConnected){
+                if(!userConnected) {
                     element.classList.add("d-none");
                 }
                 break;
             case 'admin': 
-                if(!userConnected || role != "admin"){
+                if(!userConnected || role !== "admin") {
                     element.classList.add("d-none");
                 }
                 break;
             case 'employe': 
-                if(!userConnected || role != "employe"){
+                if(!userConnected || role !== "employe") {
                     element.classList.add("d-none");
                 }
                 break;
             case 'user': 
-                if(!userConnected || role != "user"){
+                if(!userConnected || role !== "user") {
                     element.classList.add("d-none");
                 }
                 break;
         }
-    })
+    });
 }
+
+// Lancer l'affichage au chargement de la page
+document.addEventListener("DOMContentLoaded", showAndHideElementsForRoles);

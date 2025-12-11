@@ -15,3 +15,16 @@ installation de Bootstrap icons
 extention Live Sass Compiler
 
 # Installation Back 
+Installation PHP 8.2.12
+Installation Apache2
+Installation MySQL
+Installation Xampp
+installation symfony CLI
+intallation Doctrine ORM-pack 
+Installation security-bundle 
+Installation composer require api
+Installation composer require zircote/swagger-php
+
+
+# Installation base de données 
+Adminer 

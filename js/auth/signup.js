@@ -100,3 +100,44 @@ function validateRequired(input){
         return false;
     }
 }
+
+function InscrireUtilisateur(){
+    let dataForm = new FormData(formInscription);
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+       
+    const raw = JSON.stringify({
+        "nom": dataForm.get("nom"),
+        "prenom": dataForm.get("prenom"),
+        "email": dataForm.get("email"),
+        "password": dataForm.get("password"),
+        "tel": dataForm.get("telephone"),
+        "adresse": dataForm.get("ville"),
+        "codeP": dataForm.get("code_postal"),
+        "ville": dataForm.get("ville")
+        
+    });
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+    };
+
+    fetch(apiUrl+"registration", requestOptions)
+     .then(response => {
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            alert("Erreur lors de l'inscription");
+        }
+    })
+    .then(result => {
+        alert("Bravo "+dataForm.get("prenom")+", vous êtes maintenant inscrit, vous pouvez vous connecter.");
+        document.location.href="/signin";
+    })
+    .catch(error => console.log('error', error));
+};
