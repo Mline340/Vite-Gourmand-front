@@ -4,6 +4,66 @@
     </div>
 </div>
 
+<body>
+    <div class="filtre">
+        <div class="form-card">   
+            <h2 class="pt-4 mb-4">Filtres</h2>
+            
+            <div class="filter-card">
+                <form class="filter-form">
+                    <div class="row g-3 g-md-4">
+                        <!-- Ligne 1 -->
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label for="regime">Régime</label>
+                            <select name="regime" id="regime" class="form-select">
+                                <option value="">Tous</option>
+                                <option value="vegetarien">Végétarien</option>
+                                <option value="vegan">Végan</option>
+                                <option value="classique">Classique</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label for="theme">Thème</label>
+                            <select name="theme" id="theme" class="form-select">
+                                <option value="">Tous</option>
+                                <option value="fete">Repas de fête</option>
+                                <option value="monde">Cuisine du monde</option>
+                                <option value="recevoir">Pour recevoir</option>
+                                <option value="amis">Entre amis</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label for="NombPersMax">Nb. de personnes min.</label>
+                            <input  type="number" class="form-control" id="NombPersMax" placeholder="Ex: 2"  min="0" step="1">
+                        </div>
+
+                        <!-- Ligne 2 -->
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label for="budgetMax">Budget maximum (€)</label>
+                            <input type="number" class="form-control" id="budgetMax" placeholder="Ex: 20" min="0" step="5">
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label for="priceMin">Prix minimum (€)</label>
+                            <input type="number" id="priceMin" name="priceMin" class="form-control"placeholder="0"min="0"step="1">
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label for="priceMax">Prix maximum (€)</label>
+                            <input type="number" id="priceMax" name="priceMax" class="form-control"placeholder="1000"min="0"step="1">
+                        </div>
+
+                        <!-- Bouton aligné avec les champs -->
+                        <div class="col-12 col-md-12 col-lg-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-secondary" id="btnFiltre">Filtrer les résultats</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">

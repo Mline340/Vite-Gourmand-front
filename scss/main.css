@@ -12038,6 +12038,11 @@ img {
   display: block;
 }
 
+.filtre {
+  max-width: 1400px;
+  margin: 20px auto;
+}
+
 .image-card {
   position: relative;
 }

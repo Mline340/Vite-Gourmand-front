@@ -11,6 +11,7 @@ export const allRoutes = [
     new Route("/contact", "Contact", "/pages/auth/contact.html", [],"/js/auth/contact.js"),
     new Route("/account", "Mon compte", "/pages/auth/account.html", ["user", "admin", "employe"], "/js/auth/account.js" ),
     new Route("/menu1", "Menu 1", "/pages/menu/menu1.html", []),
+    new Route("/information", "Mes Informations", "/pages/auth/information.html", ["user", "admin", "employe"], "/js/auth/information.js"),
 ];
     
 
