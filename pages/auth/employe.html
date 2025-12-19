@@ -1,0 +1,46 @@
+<div class="hero-scene text-center text-black">
+    <div class="hero-scene-content">
+        <h1>Créer un nouvel employé</h1>
+    </div>
+</div>
+<div class="contact-container">
+  <div class="form-card">
+     <form id="formulaireEmploye">
+          <div class="mb-3">
+              <label for="NomInput" class="form-label">Nom</label>
+              <input type="text" class="form-control" id="NomInput" placeholder="Votre Nom" name="nom"> 
+          </div>
+          <div class="mb-3">
+              <label for="PrenomInput" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="PrenomInput" placeholder="Votre Prénom" name="prenom"> 
+          </div>
+          <div class="mb-3">
+              <label for="EmailInput" class="form-label">Email</label>
+              <input type="email" class="form-control" id="EmailInput" placeholder="test@mail.fr" name="email"> 
+          </div>
+          <div class="mb-3">
+              <label for="PasswordInput" class="form-label">Mot de passe</label>
+              <input type="password" class="form-control" id="PasswordInput" name="password">
+                <div class="invalid-feedback">
+                   Le mot de pass n'est pas assez robuste : au moins 10 caractères, comprenant au moins 1 lettre majuscule, 1 minuscule, 1chiffre et 1 caractère spéciale
+                </div>
+                <div class="valid-feedback">
+                   Votre mot de pass est robuste
+                </div>
+          </div> 
+          <div class="mb-3">
+              <label for="ValidatePasswordInput" class="form-label"> Confirmez votre mot de passe</label>
+              <input type="password" class="form-control" id="ValidatePasswordInput">
+                <div class="invalid-feedback">
+                   La confirmation n'est pas identique au mot de passe
+                </div>
+          </div>      
+          <div class="text-center">
+            <button type="submit" class="btn btn-glam" id="btn-validation-employe" disabled>Créer l'employe</button>
+          </div>
+          <div class="text-center pt-3">
+              <a href="/admin" class="btn btn-secondary">Annuler</a>
+          </div>
+    </form>
+  </div>
+</div>

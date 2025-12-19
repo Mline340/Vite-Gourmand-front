@@ -92,7 +92,56 @@ async function loadAccountPage() {
     }
   }
 }
+// Supprimer mon Compte 
+window.supprimerMonCompte = async function() {
+  console.log("🔴 Fonction de suppression appelée");
+  
+  const token = getToken();
+  const userId = localStorage.getItem("userId");
+  
+  if (!token || !userId) {
+    console.error("❌ Token ou userId manquant");
+    alert("Erreur : informations de connexion manquantes");
+    return;
+  }
+  
+  // Confirmation avant suppression
+  if (!confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+    console.log("❌ Suppression annulée par l'utilisateur");
+    return;
+  }
 
+  const endpoint = `http://127.0.0.1:8000/api/users/${userId}`;
+  console.log("📡 Envoi requête DELETE vers:", endpoint);
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    console.log("📡 Réponse reçue, statut:", response.status);
+
+    if (response.ok) {
+      console.log("✅ Compte supprimé avec succès");
+      // Nettoyage et redirection
+      localStorage.removeItem("apiToken");
+      localStorage.removeItem("userId");
+      alert("Votre compte a été supprimé avec succès");
+      window.location.href = "/signin";
+    } else {
+      const errorText = await response.text();
+      console.error("❌ Erreur lors de la suppression:", errorText);
+      alert("Erreur lors de la suppression du compte : " + response.status);
+    }
+  } catch (error) {
+    console.error("❌ Erreur:", error);
+    alert("Une erreur est survenue lors de la suppression");
+  }
+};
 // Lancer la fonction au chargement de la page
 console.log("🚀 Lancement de loadAccountPage()...");
 loadAccountPage();
