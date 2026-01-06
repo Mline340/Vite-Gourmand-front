@@ -1,0 +1,87 @@
+<div class="hero-scene text-center text-black">
+    <div class="hero-scene-content">
+        <h1>Nouveau Menu</h1>
+    </div>
+</div>
+<div class="contact-container">
+  <div class="form-card">
+     <form id="formulaireMenu">
+          <div class="mb-3">
+              <label for="TitreInput" class="form-label">Titre</label>
+              <input type="text" class="form-control" id="TitreInput" placeholder="Poisson, viande..." name="titre"> 
+          </div>
+          <div class="mb-3">
+              <label for="NbrPersInput" class="form-label">Nombre de personne minimum</label>
+              <input type="number"  step="0.01" class="form-control" id="NbrPersInput" name="nombre_personne_mini"> 
+          </div>
+          <div class="mb-3">
+              <label for="PrixPersInput" class="form-label">Prix par personne</label>
+              <input type="number" class="form-control" id="PrixPersInput" name="prix_par_personne"> 
+          </div>
+          <div class="mb-3">
+              <label for="QuantiteInput" class="form-label">Quantité restante</label>
+              <input type="number" class="form-control" id="QuantiteInput" name="quantite_restante"> 
+          </div>
+          <div class="mb-3">
+              <label for="DescriptionInput" class="form-label">Description</label>
+              <textarea class="form-control" id="DescriptionInput" name="description" rows="5" required 
+                placeholder="Description du menu..." minlength="10"></textarea> 
+          </div>
+          <div class="mb-3">
+              <label for="RegimeInput">Régime</label>
+                <select name="regime" id="RegimeInput" class="form-select">
+                    <option value="1">Tous</option>
+                    <option value="2">Végétarien</option>
+                    <option value="3">Végan</option>
+                    <option value="4">Classique</option>
+                </select> 
+          </div>
+          <div class="mb-3">
+               <label for="ThemeInput">Thème</label>
+                <select name="theme" id="ThemeInput" class="form-select">
+                    <option value="1">Tous</option>
+                    <option value="2">Repas de fête</option>
+                    <option value="3">Cuisine du monde</option>
+                    <option value="4">Pour recevoir</option>
+                    <option value="5">Entre amis</option>
+                </select>
+          </div>
+          <div class="mb-3">
+               <label for="AllergeneInput">Allergene</label>
+                <select name="allergene" id="AllergeneInput" class="form-select" multiple size="5">
+                    <option value="1">Arachide</option>
+                    <option value="2">Céleri</option>
+                    <option value="3">Crustacés</option>
+                    <option value="4">Gluten</option>
+                    <option value="5">Fruits à coque</option>
+                    <option value="6">Lait</option>
+                    <option value="7">Lupin</option>
+                    <option value="8">Oeuf</option>
+                    <option value="9">Poisson</option>
+                    <option value="10">Mollusques</option>
+                    <option value="11">Moutarde</option>
+                    <option value="12">Sésame</option>
+                    <option value="13">Soja</option>
+                    <option value="14">Sulfites</option>
+                </select>
+                <small class="form-text text-muted">Maintenez Ctrl (Windows) ou Cmd (Mac) pour sélectionner plusieurs allergènes</small>
+          </div>
+          <div class="mb-3">
+              <label for="TitrePlatInput" class="form-label">Titre plat </label>
+              <input type="text" class="form-control" id="TitrePlatInput" placeholder="Brandade de morue, boeuf bourguignon..." name="titre_plat"> 
+          </div>
+          <div class="mb-3">
+              <label for="ConditionsInput" class="form-label">Conditions</label>
+              <input type="text" class="form-control" id="ConditionsInput"placeholder="Commander 3 jours avant, garder au frais..." name="conditions">
+          </div> 
+          <div class="mb-3">            
+                <label for="PhotoInput">Photo du plat </label>
+                <input type="file" id="PhotoInput" name="photo" accept="image/*">
+                <img id="preview" src="" alt="Aperçu" style="max-width: 200px; display: none;">
+          </div>      
+          <div class="text-center">
+            <button type="button" class="btn btn-glam" id="btn-validation-menu">Créer le Menu</button>
+          </div>
+    </form>
+  </div>
+</div>

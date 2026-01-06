@@ -9,6 +9,18 @@ html{
     overflow-x: hidden;
 }
 
+.btn-glam {
+    @extend .btn; 
+    background-color: $glam;
+    color: white;
+    border: 1px solid $glam;
+    
+    &:hover {
+        background-color: darken($glam, 10%);
+        border-color: darken($glam, 10%);
+        color: white;
+    }
+}
 
 // Navbar
 

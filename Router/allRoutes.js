@@ -13,6 +13,7 @@ export const allRoutes = [
     new Route("/menu1", "Menu 1", "/pages/menu/menu1.html", []),
     new Route("/information", "Mes Informations", "/pages/auth/information.html", ["user", "admin", "employe"], "/js/auth/information.js"),
     new Route("/employe", "Créer un employé", "/pages/auth/employe.html", ["admin"], "/js/auth/employe.js"),
+    new Route("/createmenu", "Créer un menu", "/pages/menu/createmenu.html", ["admin", "employe"], "/js/menu/createmenu.js"),
 ];
     
 
