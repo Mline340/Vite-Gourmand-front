@@ -7,8 +7,7 @@
 <body>
     <div class="filtre">
         <div class="form-card">   
-            <h2 class="pt-4 mb-4">Filtres</h2>
-            
+          <h2 class="pt-4 mb-4">Filtres</h2>
             <div class="filter-card">
                 <form class="filter-form">
                     <div class="row g-3 g-md-4">
@@ -16,21 +15,21 @@
                         <div class="col-12 col-md-4 col-lg-3">
                             <label for="regime">Régime</label>
                             <select name="regime" id="regime" class="form-select">
-                                <option value="">Tous</option>
-                                <option value="vegetarien">Végétarien</option>
-                                <option value="vegan">Végan</option>
-                                <option value="classique">Classique</option>
+                                <option value="1">Tous</option>
+                                <option value="2">Végétarien</option>
+                                <option value="3">Végan</option>
+                                <option value="4">Classique</option>
                             </select>
                         </div>
 
                         <div class="col-12 col-md-4 col-lg-3">
                             <label for="theme">Thème</label>
                             <select name="theme" id="theme" class="form-select">
-                                <option value="">Tous</option>
-                                <option value="fete">Repas de fête</option>
-                                <option value="monde">Cuisine du monde</option>
-                                <option value="recevoir">Pour recevoir</option>
-                                <option value="amis">Entre amis</option>
+                                <option value="1">Tous</option>
+                                <option value="2">Repas de fête</option>
+                                <option value="3">Cuisine du monde</option>
+                                <option value="4">Pour recevoir</option>
+                                <option value="5">Entre amis</option>
                             </select>
                         </div>
 
@@ -66,67 +65,12 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">
-            <div class="image-card text-white">
-                <img src="../image/DPainBanane.jpg" alt="brunch" class="rounded w-100">
-                <a href="/menu1" class="titre-image">Brunch</a>   
-                 <div class="action-image-buttons" data-show="admin" >
-                    <button data-show="admin" type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#EditionPhotoModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
-                </div>         
+        <div class="container">
+            <div class="row" id="menus-container">
+                <p class="text-center">Chargement des menus...</p>
             </div>
         </div>
-        <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">
-            <div class="image-card text-white">
-                <img src="../image/poke.jpg" alt="brunch" class="rounded w-100">
-                <a href="/menu2" class="titre-image">Végétarien</a> 
-                <div class="action-image-buttons" data-show="admin">
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#EditionPhotoModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
-                </div>
-            </div>
-        </div>
-         <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">
-            <div class="image-card text-white">
-                <img src="../image/indien.jpg" alt="brunch" class="rounded w-100">
-                <a href="/menu3" class="titre-image">Indien</a> 
-                <div class="action-image-buttons" data-show="admin">
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#EditionPhotoModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">
-            <div class="image-card text-white">
-                <img src="../image/plat.jpg" alt="brunch" class="rounded w-100">
-                <a href="/menu4" class="titre-image">Viande</a> 
-                <div class="action-image-buttons" data-show="admin">
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#EditionPhotoModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">
-            <div class="image-card text-white">
-                <img src="../image/poisson.jpg" alt="brunch" class="rounded w-100">
-                <a href="/menu5" class="titre-image">Poisson</a> 
-                <div class="action-image-buttons" data-show="admin">
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#EditionPhotoModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
-                </div>
-            </div>
-        </div>
-         <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">
-            <div class="image-card text-white">
-                <img src="../image/noel.jpg" alt="brunch" class="rounded w-100">
-                <a href="/menu6" class="titre-image">Repas de fête</a> 
-                <div class="action-image-buttons" data-show="admin">
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#EditionPhotoModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
-                </div>
-            </div>
-        </div>
-         <div class="text-center pt-3">
+        <div class="text-center pt-3">
             <a href="createmenu" data-show="admin, employe">Ajouter un menu</a>
          </div>  
     </div>
@@ -136,47 +80,40 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title fs-5" id="EditionPhotoModalLabel">Edition Photo</h2>
+          <h2 class="modal-title fs-5" id="EditionPhotoModalLabel">Modifier le menu</h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form>
-                <div class="mb-3">
-                  <label for="NamePhotoInput" class="form-label">Titre</label>
-                  <input type="text" class="form-control" id="NamePhotoInput" placeholder="Brunch, poisson..." name="Titre"> 
-                </div>
-                <div class="mb-3">
-                  <label for="ImageInput" class="form-label">Image</label>
-                  <input type="file" class="form-control" id="ImageInput"  name="Image">
-                </div>
-                <div class="text-center">
-                    <button type="button" class="btn btn-glam">Enregistrer</button>
-                </div>
-            </form>
+            <div class="mb-3">
+              <label for="TitreInput" class="form-label">Titre du menu</label>
+              <input type="text" class="form-control" id="TitreInput" placeholder="Végétarien, Viande..." name="Titre"> 
+            </div>
+            <div class="mb-3">
+              <label for="PhotoInput" class="form-label">Photo</label>
+              <input type="file" class="form-control" id="PhotoInput" name="Image" accept="image/*">
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-glam" id="btnEnregistrerMenu">Enregistrer</button>
+            </div>
         </div>
       </div>
     </div>
-  </div>
+</div>
   <!-- Modal suppression -->
-<div class="modal fade" id="DeletePhotoModal" tabindex="-1" aria-labelledby="DeletePhotoModalLabel" aria-hidden="true">
+<div class="modal fade" id="ConfirmationSuppressionModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title fs-5" id="DeletePhotoModalLabel">Êtes-vous sûr de vouloir supprimer cette photo ? </h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmer la suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce menu ? Cette action est irréversible.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger btn-confirm-delete">Supprimer</button>
+            </div>
         </div>
-        <div class="modal-body">
-            <form>
-                <div class="mb-3">
-                  <p>Titre</p>
-                    <img src="../image/DPainBanane.jpg" alt="brunch" class="rounded w-100">
-                  </div>
-                <div class="text-center">
-                    <button type="button" class="btn btn-danger">Supprimer</button>
-                    <button type="button" class="btn btn-glam" data-bs-dismiss="modal">Annuler</button>
-                </div>
-            </form>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
