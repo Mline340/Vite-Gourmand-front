@@ -2,7 +2,7 @@ import Route from "./Route.js";
 import { allRoutes, websiteName } from "./allRoutes.js";
 
 // Création d'une route pour la page 404 (page introuvable)
-const route404 = new Route("404", "Page introuvable", "/pages/404.html",[]);
+const route404 = new Route("404", "Page introuvable", "/pages/404.html", []);
 
 // Fonction pour récupérer la route correspondant à une URL donnée
 const getRouteByUrl = (url) => {
@@ -27,18 +27,27 @@ const LoadContentPage = async () => {
   // Récupération de l'URL actuelle
   const actualRoute = getRouteByUrl(path);
 
-  //Vérifier les droits d'accès à la page
+  // Vérifier les droits d'accès à la page
   const allRolesArray = actualRoute.authorize;
-  if(allRolesArray.length > 0){
-    if(allRolesArray.includes("disconnected")){
-      if(isConnected()){
+  if (allRolesArray.length > 0) {
+    if (allRolesArray.includes("disconnected")) {
+      if (isConnected()) {
         window.location.replace("/");
       }
-    }
-    else{
+    } else {
       const roleUser = getRole();
-      if(!allRolesArray.includes(roleUser)){
+      
+      // Si l'utilisateur n'est pas connecté ou n'a pas le bon rôle
+      if (!roleUser || !allRolesArray.includes(roleUser)) {
+        // Cas spécial pour la page de commande
+        if (path === "/commande") {
+          alert("Vous devez avoir créé un compte et être connecté pour accéder aux commandes");
+          window.location.replace("/connexion");
+          return;
+        }
+        // Pour les autres pages protégées
         window.location.replace("/");
+        return;
       }
     }
   }
@@ -85,7 +94,7 @@ const LoadContentPage = async () => {
   // Changement du titre de la page
   document.title = actualRoute.title + " - " + websiteName;
 
-  //Afficher et masquer les éléments en fonction du rôle
+  // Afficher et masquer les éléments en fonction du rôle
   showAndHideElementsForRoles();
 };
 

@@ -15,7 +15,7 @@
                         <div class="col-12 col-md-4 col-lg-3">
                             <label for="regime">Régime</label>
                             <select name="regime" id="regime" class="form-select">
-                                <option value="1">Tous</option>
+                                <option value="Tous">Tous</option>
                                 <option value="2">Végétarien</option>
                                 <option value="3">Végan</option>
                                 <option value="4">Classique</option>
@@ -25,7 +25,7 @@
                         <div class="col-12 col-md-4 col-lg-3">
                             <label for="theme">Thème</label>
                             <select name="theme" id="theme" class="form-select">
-                                <option value="1">Tous</option>
+                                <option value="Tous">Tous</option>
                                 <option value="2">Repas de fête</option>
                                 <option value="3">Cuisine du monde</option>
                                 <option value="4">Pour recevoir</option>
@@ -62,7 +62,11 @@
             </div>
         </div>
     </div>
-
+    <script>
+    console.log("🟢 Script inline dans menu.html chargé !");
+    console.log("🟢 Bouton existe ?", document.getElementById('btnFiltre'));
+</script>
+</body>
 <div class="container">
     <div class="row">
         <div class="container">

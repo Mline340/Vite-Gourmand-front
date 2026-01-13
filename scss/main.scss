@@ -135,6 +135,107 @@ img {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 30px;
  }
+// justifier un texte 
+.text-justify {
+    text-align: justify;
+    text-justify: inter-word;
+    
+    p {
+        text-align: justify;
+        text-justify: inter-word;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+}
+ // description menu 
+ .menu-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    
+    h5 {
+        margin: 0;
+        flex: 0 0 250px;
+        font-size: 1rem;
+        color: #495057;
+    }
+    
+    p {
+        margin: 0;
+        flex: 1;
+        text-align: right;
+        padding-left: 20px;
+    }
+ 
+    &:last-of-type {
+        border-bottom: none;
+    }
+}
+
+#menu-allergenes {
+    margin: 0;
+    flex: 1;
+    text-align: right;
+    padding-left: 20px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.menu-prix-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $glam;
+}
+
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+    .menu-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        
+        h5 {
+            margin-bottom: 0.5rem;
+            flex: none;
+        }
+        
+        p {
+            text-align: left;
+            padding-left: 0;
+        }
+    }
+     #menu-allergenes {
+        text-align: left;
+        padding-left: 0;
+        justify-content: flex-start;
+    }
+
+    .menu-prix-value {
+        font-size: 1.25rem;
+    }
+    
+    .form-card {
+        padding: 20px;
+    }
+}
+
+// Centre le bouton commander 
+#btn-commander {
+    min-width: 250px;
+}
+.mt-4.text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 // Footer
 main{margin-bottom: 350px;}
 footer.footer {

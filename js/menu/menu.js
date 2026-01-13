@@ -1,4 +1,18 @@
 console.log("🔵 Script menu.js chargé !");
+// ========================================
+// CHARGEMENT DU SCRIPT DE FILTRAGE
+// ========================================
+(function() {
+    const scriptFiltre = document.createElement('script');
+    scriptFiltre.src = '/js/menu/filtre.js';
+    scriptFiltre.onload = function() {
+        console.log('✅ filtre.js chargé avec succès');
+    };
+    scriptFiltre.onerror = function() {
+        console.error('❌ Erreur de chargement de filtre.js');
+    };
+    document.head.appendChild(scriptFiltre);
+})();
 
 //Affichage des Menus 
 async function afficherMenus() {
@@ -23,6 +37,9 @@ async function afficherMenus() {
             const menus = data.member || [];
             
             console.log("✅ Menus récupérés:", menus);
+            window.menusData = menus;
+            console.log("🔥 window.menusData défini:", window.menusData.length, "menus");
+
             afficherCartes(menus);
         } else {
             console.error("❌ Erreur lors de la récupération des menus");
@@ -88,7 +105,7 @@ function afficherCartes(menus) {
     <div class="col-12 col-md-4 text-center mb-3 mb-md-0 p-3">
         <div class="image-card text-white">
             <img src="${photo}" alt="${menu.titre}" class="rounded w-100">
-            <a href="/menu-details?id=${menuId}" class="titre-image">${menu.titre}</a>   
+            <a href="/descriptionmenu?id=${menuId}" class="titre-image">${menu.titre}</a>   
             <div class="action-image-buttons" data-show="admin">
                 <button type="button" class="btn btn-outline-light btn-edit-menu" 
                         data-menu-id="${menuId}" 

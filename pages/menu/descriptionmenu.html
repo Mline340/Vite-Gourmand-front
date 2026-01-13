@@ -1,0 +1,86 @@
+<div class="hero-scene text-center text-black">
+    <div class="hero-scene-content">
+        <h1>Détail du menu</h1>
+    </div>
+</div>
+<body>
+<div class="filtre">
+    <div class="form-card">
+        <div id="loading" class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+        </div>
+        <div id="menu-content" style="display: none;">
+            <div class="row mb-4">
+                <div class="col-md-6 mx-auto">
+                    <img id="menu-photo" src="" alt="Menu" class="img-fluid rounded">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <h1 id="menu-titre" class="text-center"></h1>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-8 mx-auto">
+                    <div class="menu-info-row">
+                        <h5><strong>Description</strong></h5>
+                        <p id="menu-description"></p>
+                    </div>
+                    
+                    <div class="menu-info-row">
+                        <h5><strong>Prix par personne</strong></h5>
+                        <p id="menu-prix" class="menu-prix-value"></p>
+                    </div>
+                    
+                    <div class="menu-info-row">
+                        <h5><strong>Nombre de personnes minimum</strong></h5>
+                        <p id="menu-personnes" class="menu-value"></p>
+                    </div>
+                    
+                    <div class="menu-info-row">
+                        <h5><strong>Quantité restante</strong></h5>
+                        <p id="menu-quantite"></p>
+                    </div>
+                    
+                    <div class="menu-info-row" id="regime-container" style="display: none;">
+                        <h5><strong>Régime alimentaire</strong></h5>
+                        <p id="menu-regime"></p>
+                    </div>
+                    
+                    <div class="menu-info-row" id="theme-container" style="display: none;">
+                        <h5><strong>Thème</strong></h5>
+                        <p id="menu-theme"></p>
+                    </div>
+                    
+                    <div class="menu-info-row" id="allergenes-container" style="display: none;">
+                        <h5><strong>Allergènes</strong></h5>
+                        <div id="menu-allergenes"></div>
+                    </div>
+                    
+                    <div class="menu-info-row" id="conditions-container" style="display: none;">
+                        <h5><strong>Conditions particulières</strong></h5>
+                        <p id="menu-conditions"></p>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button id="btn-commander" class="btn btn-secondary btn-lg">
+                            Commander ce menu
+                        </button>
+                    </div>
+                    <div id="no-stock-message" class="alert alert-warning text-center mt-4" style="display: none;">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Ce menu n'est plus disponible pour le moment.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="error-message" class="alert alert-danger text-center" style="display: none;">
+            <i class="bi bi-exclamation-circle"></i>
+            <span id="error-text"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
