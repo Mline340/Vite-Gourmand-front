@@ -3,25 +3,43 @@
         <h1>Mon Compte</h1>
     </div>
 </div>
-
-<div class="contact-container">
+<body>
+    <div class="contact-container">
     <div class="form-card">
-        <p class="pb-1">
-        <a href="/information" style="color: black;"><strong>Mes informations</strong><i class="bi bi-pencil"></i></a>
-        </p>
-        <div id="user-info">
-            Chargement des informations
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm mb-4 info-card">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-person me-2"></i>Mes informations</h5>
+                        <a href="/information" class="btn btn-sm btn-light">
+                        <i class="bi bi-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                <div id="user-info">
+                    Chargement des informations
+                </div>  
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-card">
-         <p class="pb-1">
-        <a href="/commande" style="color: black;"><strong>Mes commandes</strong><i class="bi bi-pencil"></i></a>
-        </p>
-       <div id="commande-info">
-            Chargement des informations
-        </div>       
-    </div>
 </div>
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <div class="card shadow-sm commands-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-box-seam me-2"></i>Mes commandes</h5>
+                </div>
+                <div class="card-body">
+                     <div id="orders-list"></div>
+                       <div id="commande-info">
+                       </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</body>
 <div class="text-center pt-4">
        <a href="/employe" data-show="admin">Ajouter un compte employé!</a>
 </div>

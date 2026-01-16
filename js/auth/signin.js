@@ -110,6 +110,14 @@ function checkCredentials(event){
             console.log("📋 Vérifiez que votre backend retourne bien 'userId'");
         }
         
+        const userToStore = {
+            id: result.userId,
+            email: result.user,
+            role: result.roles ? result.roles[0] : 'user'
+        };
+    
+        sessionStorage.setItem('user', JSON.stringify(userToStore));
+        console.log('✅ Données utilisateur stockées après connexion');
         // ===== VÉRIFICATION FINALE =====
         console.log("🔍 VÉRIFICATION FINALE:");
         const verif = {
