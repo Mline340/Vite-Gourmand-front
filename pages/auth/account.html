@@ -4,41 +4,190 @@
     </div>
 </div>
 <body>
-    <div class="contact-container">
-    <div class="form-card">
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow-sm mb-4 info-card">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"><i class="bi bi-person me-2"></i>Mes informations</h5>
-                        <a href="/information" class="btn btn-sm btn-light">
-                        <i class="bi bi-pencil"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
+<div class="contact-container">
+    <div class="tiles-grid">
+        
+        <!-- TUILE 1 : Mes informations (TOUS) -->
+        <div class="card shadow-sm info-card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-person me-2"></i>Mes informations</h5>
+                <a href="/information" class="btn btn-sm btn-light">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            </div>
+            <div class="card-body">
                 <div id="user-info">
-                    Chargement des informations
-                </div>  
+                   Chargement des informations
                 </div>
             </div>
         </div>
+
+        <!-- TUILE 2 : Mes commandes (USER uniquement) -->
+        <div class="card shadow-sm info-card user-only">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-box-seam me-2"></i>Mes commandes</h5>
+            </div>
+            <div class="card-body">
+                <div class="info-line">
+                    <strong>Total :</strong>
+                    <span class="badge-custom badge-info-custom">3 commandes</span>
+                </div>
+                <div class="info-line">
+                    <strong>Dernière :</strong>
+                    <span>CMD-20260114-36456</span>
+                </div>
+                <div class="info-line">
+                    <strong>Date :</strong>
+                    <span>14/01/2026</span>
+                </div>
+                <div class="info-line">
+                    <strong>Statut :</strong>
+                    <span class="badge-custom badge-warning">En attente</span>
+                </div>
+                <div class="mt-3">
+                    <a href="/mes-commandes" class="btn btn-glam w-60">
+                        <i class="bi bi-list-ul me-2"></i>Voir toutes mes commandes
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TUILE 3 : Mes avis (USER uniquement) -->
+        <div class="card shadow-sm info-card user-only">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-star me-2"></i>Mes avis</h5>
+            </div>
+            <div class="card-body">
+                <div class="info-line">
+                    <strong>Total :</strong>
+                    <span class="badge-custom badge-info-custom">5 avis déposés</span>
+                </div>
+                <div class="info-line">
+                    <strong>En attente :</strong>
+                    <span class="badge-custom badge-warning">2 en validation</span>
+                </div>
+                <div class="info-line">
+                    <strong>Publiés :</strong>
+                    <span class="badge-custom badge-success-custom">3 avis publiés</span>
+                </div>
+                <div class="mt-3">
+                    <a href="/mes-avis" class="btn btn-glam w-60">
+                        <i class="bi bi-chat-left-text me-2"></i>Gérer mes avis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TUILE 4 : Commandes clients (EMPLOYÉ + ADMIN) -->
+        <div class="card shadow-sm info-card employee-only">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>Commandes clients</h5>
+            </div>
+            <div class="card-body">
+                <div class="info-line">
+                    <strong>Aujourd'hui :</strong>
+                    <span class="badge-custom badge-info-custom">12 commandes</span>
+                </div>
+                <div class="info-line">
+                    <strong>En attente :</strong>
+                    <span class="badge-custom badge-warning">8 à traiter</span>
+                </div>
+                <div class="info-line">
+                    <strong>Terminées :</strong>
+                    <span class="badge-custom badge-success-custom">4 terminées</span>
+                </div>
+                <div class="mt-3">
+                    <a href="/commandes-clients" class="btn btn-primary w-100">
+                        <i class="bi bi-list-check me-2"></i>Gérer les commandes
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TUILE 5 : Gestion horaires (EMPLOYÉ + ADMIN) -->
+        <div class="card shadow-sm info-card employee-only">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-clock me-2"></i>Gestion des horaires</h5>
+            </div>
+            <div class="card-body">
+                <div class="info-line">
+                    <strong>Restaurant :</strong>
+                    <span>Vite & Gourmand</span>
+                </div>
+                <div class="info-line">
+                    <strong>Horaires :</strong>
+                    <span>Configurés pour tous les jours</span>
+                </div>
+                <p class="text-muted mt-2 mb-3" style="font-size: 13px;">
+                    Modifiez les horaires d'ouverture du restaurant pour informer vos clients.
+                </p>
+                <a href="/horaire" class="btn btn-primary w-100">
+                    <i class="bi bi-pencil-square me-2"></i>Modifier les horaires
+                </a>
+            </div>
+        </div>
+
+        <!-- TUILE 6 : Validation avis (EMPLOYÉ + ADMIN) -->
+        <div class="card shadow-sm info-card employee-only">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-check-circle me-2"></i>Validation des avis</h5>
+            </div>
+            <div class="card-body">
+                <div class="info-line">
+                    <strong>En attente :</strong>
+                    <span class="badge-custom badge-warning">7 avis à valider</span>
+                </div>
+                <div class="info-line">
+                    <strong>Total validés :</strong>
+                    <span class="badge-custom badge-success-custom">142 avis</span>
+                </div>
+                <div class="info-line">
+                    <strong>Refusés :</strong>
+                    <span class="text-danger">8 avis</span>
+                </div>
+                <div class="mt-3">
+                    <a href="/validation-avis" class="btn btn-primary w-100">
+                        <i class="bi bi-search me-2"></i>Modérer les avis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TUILE 7 : Statistiques (ADMIN uniquement) -->
+        <div class="card shadow-sm info-card admin-only">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Statistiques</h5>
+            </div>
+            <div class="card-body">
+                <div class="info-line">
+                    <strong>CA du mois :</strong>
+                    <span class="badge-custom badge-success-custom">12 450 €</span>
+                </div>
+                <div class="info-line">
+                    <strong>Commandes :</strong>
+                    <span class="badge-custom badge-info-custom">287 ce mois</span>
+                </div>
+                <div class="info-line">
+                    <strong>Clients :</strong>
+                    <span>156 clients actifs</span>
+                </div>
+                <div class="mt-3">
+                    <a href="/statistiques" class="btn btn-primary w-100">
+                        <i class="bi bi-bar-chart me-2"></i>Voir toutes les stats
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Boutons en bas de page -->
+    <div class="text-center pt-4 admin-only">
+        <a href="/employe" class="btn btn-outline-primary mb-3">
+            <i class="bi bi-person-plus me-2"></i>Ajouter un compte employé
+        </a>
     </div>
 </div>
-    <div class="row">
-        <div class="col-8 mx-auto">
-            <div class="card shadow-sm commands-card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-box-seam me-2"></i>Mes commandes</h5>
-                </div>
-                <div class="card-body">
-                     <div id="orders-list"></div>
-                       <div id="commande-info">
-                       </div>
-                </div> 
-            </div>
-        </div>
-    </div>
 </body>
 <div class="text-center pt-4">
        <a href="/employe" data-show="admin">Ajouter un compte employé!</a>

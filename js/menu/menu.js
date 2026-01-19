@@ -142,6 +142,19 @@ let platEnCoursEdition = null;
 
 function attacherEvenementsModale() {
     console.log("🔗 Attachement des événements");
+    
+    // Vérifier le rôle
+    const role = localStorage.getItem('role');
+    console.log("👤 Rôle détecté:", role);
+    
+    if(role !== 'admin' && role !== 'employe') {
+        console.log('⚠️ Boutons édition/suppression masqués pour le rôle:', role);
+        // Masquer tous les boutons d'édition et suppression
+        document.querySelectorAll('.btn-edit-menu, .btn-delete-menu').forEach(btn => {
+            btn.style.display = 'none';
+        });
+        return;
+    }
 
     // --- LOGIQUE ÉDITION ---
     const btnsEdit = document.querySelectorAll('.btn-edit-menu');
@@ -372,6 +385,7 @@ async function supprimerMenu() {
         alert("Erreur lors de la suppression : " + error.message);
     }
 }
+
 
 // ========================================
 // INITIALISATION

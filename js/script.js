@@ -66,38 +66,31 @@ function showAndHideElementsForRoles() {
     let allElementsToEdit = document.querySelectorAll('[data-show]');
 
     allElementsToEdit.forEach(element => {
-        // Retirer d-none par défaut
         element.classList.remove("d-none");
 
-        switch(element.dataset.show) {
-            case 'disconnected': 
-                if(userConnected) {
-                    element.classList.add("d-none");
+        const allowedRoles = element.dataset.show.split(',').map(r => r.trim());
+        
+        // Si contient "disconnected"
+        if(allowedRoles.includes('disconnected') && userConnected) {
+            element.classList.add("d-none");
+        }
+        // Si contient "connected"
+        else if(allowedRoles.includes('connected') && !userConnected) {
+            element.classList.add("d-none");
+        }
+        // Si contient des rôles spécifiques (admin, employe, user)
+        else if(!allowedRoles.includes('disconnected') && !allowedRoles.includes('connected')) {
+            if(!userConnected || !allowedRoles.includes(role)) {
+                element.classList.add("d-none");
+                // Pour les modales, on désactive aussi leur ouverture
+                if(element.classList.contains('modal')) {
+                    element.setAttribute('data-bs-backdrop', 'false');
+                    element.setAttribute('data-bs-keyboard', 'false');
+                    element.style.display = 'none !important';
                 }
-                break;
-            case 'connected': 
-                if(!userConnected) {
-                    element.classList.add("d-none");
-                }
-                break;
-            case 'admin': 
-                if(!userConnected || role !== "admin") {
-                    element.classList.add("d-none");
-                }
-                break;
-            case 'employe': 
-                if(!userConnected || role !== "employe") {
-                    element.classList.add("d-none");
-                }
-                break;
-            case 'user': 
-                if(!userConnected || role !== "user") {
-                    element.classList.add("d-none");
-                }
-                break;
+            }
         }
     });
 }
-
 // Lancer l'affichage au chargement de la page
 document.addEventListener("DOMContentLoaded", showAndHideElementsForRoles);

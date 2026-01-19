@@ -19,6 +19,7 @@ export const allRoutes = [
     new Route("/suivi", "Suivre une commande", "/pages/commande/suivi.html", ["user", "employe", "administrateur"], "/js/commande/suivi.js"),
     new Route("/avis", "Donner un avis", "/pages/commande/avis.html", ["user", "employe", "administrateur"], "/js/commande/avis.js"),
     new Route("/horaire", "Modifier les horaires", "/pages/auth/horaire.html", ["employe", "administrateur"], "/js/auth/horaire.js"),
+    new Route("/mes-commandes", "Visualiser mes commandes", "/pages/commande/mes-commandes.html", ["user"], "/js/commande/mes-commandes.js"),
 ];
     
 

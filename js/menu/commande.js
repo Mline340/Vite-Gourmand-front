@@ -366,7 +366,9 @@ function afficherDonneesUtilisateur() {
         infoElement.textContent = message;
     }
     
+    if (typeof mettreAJourTotalFinal === 'function') {
     mettreAJourTotalFinal();
+    }
     }
 
 
@@ -480,8 +482,15 @@ async function soumettreCommande() {
         const prixMenuTotal = (menuSelectionne.prix || 0) * nbPers;
         const totalFinal = prixMenuTotal + fraisLivraisonCalculés; // fraisLivraisonCalculés vient de ta fonction de calcul
         
+        console.log('🍽️ Menu sélectionné:', menuSelectionne);
+        console.log('🆔 ID du menu:', menuSelectionne?.id);
+
+        if (!menuSelectionne || !menuSelectionne['@id']) {
+        throw new Error('Aucun menu sélectionné');
+        }
+
         const commandeData = {
-            menus: [`/api/menus/${menuSelectionne.id }`],
+            menus: [menuSelectionne['@id']],
             User: `/api/users/${utilisateurConnecte.id}`,
             nombre_personne: parseInt(formData.get('nombre_personne')),
             date_prestation: formData.get('date_prestation'),
@@ -494,30 +503,42 @@ async function soumettreCommande() {
         console.log('📦 Données de la commande:', commandeData);
         
         // Envoyer la commande à l'API
+       const token = localStorage.getItem('apiToken'); 
+            if (!token) {
+            throw new Error('Vous devez être connecté pour passer commande');
+        }
+        console.log('🔑 Token utilisé:', token ? 'Présent' : 'Absent');
+
         const response = await fetch('http://127.0.0.1:8000/api/commandes', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/ld+json',
-                'Authorization': `Bearer ${sessionStorage.getItem('token') || ''}` // Si vous utilisez JWT
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(commandeData)
+         body: JSON.stringify(commandeData)
         });
         
+        const responseData = await response.json();
+        console.log('📥 Réponse API:', responseData);
+
+        if (!response.ok) {
+            console.error('❌ Détails erreur:', responseData);
+            throw new Error(responseData.message || 'Erreur lors de la création de la commande');
+        }
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Erreur lors de la création de la commande');
         }
-        
-        const commande = await response.json();
-        console.log('✅ Commande créée:', commande);
-        
-        // Afficher un message de succès
-        afficherSucces('Votre commande a été enregistrée avec succès !');
-        
-        // Rediriger vers la page de confirmation ou mes commandes
-        setTimeout(() => {
-            window.location.href = `/mes-commandes?id=${commande.id}`;
-        }, 2000);
+                
+        console.log('✅ Commande créée:', responseData);
+
+        // Message de succès
+        alert(`Commande ${responseData.numero_commande} créée avec succès !`);
+
+        // Redirection
+        window.location.href = 'account.html?id=' + responseData.id;
+        // OU si vous n'avez pas de page confirmation :
+        window.location.href = 'index.html';
         
     } catch (error) {
         console.error('❌ Erreur lors de la soumission:', error);
