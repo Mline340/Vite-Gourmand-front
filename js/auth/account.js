@@ -192,8 +192,8 @@ function renderOrders(commandes) {
        <hr>
                 <div class="d-flex justify-content-end gap-2">
                     ${cmd.statut !== 'Accepté' && cmd.statut !== 'Terminé' ? 
-                        `<a href="/commande/modifier/${cmd.id}" class="btn btn-sm btn-outline-primary">
-                            <i class="bi bi-pencil me-1"></i>Modifier
+                        `<a href="/modifier?id=${cmd.id}" class="btn btn-sm btn-outline-primary">
+    <i                    class="bi bi-pencil me-1"></i>Modifier
                         </a>` : 
                         ''}
                     ${cmd.statut === 'Terminé' ? 
@@ -201,7 +201,7 @@ function renderOrders(commandes) {
                             <i class="bi bi-star me-1"></i>Donner un avis
                         </a>` : 
                         ''}
-                    <a href="/commande/suivi/${cmd.id}" class="btn btn-sm btn-outline-secondary">
+                    <a href="/suivi?id=${cmd.id}" class="btn btn-sm btn-outline-secondary">
                         <i class="bi bi-eye me-1"></i>Suivi
                     </a>
                 </div>

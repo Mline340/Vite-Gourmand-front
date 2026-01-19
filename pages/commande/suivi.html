@@ -1,0 +1,29 @@
+<div class="hero-scene text-center text-black">
+    <div class="hero-scene-content">
+        <h1>Le suivi de votre commande</h1>
+    </div>
+</div> 
+<div class="container mt-5">
+    <div id="commandeInfo" class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Commande #<span id="numero"></span></h5>
+            <p class="card-text">
+                <strong>Date de commande :</strong> <span id="dateCommande"></span><br>
+                <strong>Statut actuel :</strong> <span id="commandeStatut"></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Historique du suivi</h5>
+        </div>
+        <div class="card-body">
+            <div id="suiviStatut"></div>
+        </div>
+    </div>
+
+    <button onclick="history.back()" class="btn btn-secondary mt-3">Retour</button>
+    
+    <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+</div>
