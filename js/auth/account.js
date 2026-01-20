@@ -92,7 +92,7 @@ async function loadAccountPage() {
       console.error("❌ Élément #user-info introuvable dans le DOM");
     }
     console.log("➡️ Appel loadUserOrders()");
-    await loadUserOrders();
+
   } catch (error) {
     console.error("❌ ERREUR COMPLÈTE:", error);
     console.error("❌ Message:", error.message);
