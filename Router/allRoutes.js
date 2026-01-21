@@ -14,13 +14,14 @@ export const allRoutes = [
     new Route("/employe", "Créer un employé", "/pages/auth/employe.html", ["admin"], "/js/auth/employe.js"),
     new Route("/createmenu", "Créer un menu", "/pages/menu/createmenu.html", ["admin", "employe"], "/js/menu/createmenu.js"),
     new Route("/descriptionmenu", "Détail d'un menu", "/pages/menu/descriptionmenu.html", [], "/js/menu/descriptionmenu.js"),
-    new Route("/commande", "Commander un menu", "/pages/menu/commande.html", ["user", "employe", "administrateur"], "/js/menu/commande.js"),
-    new Route("/modifier", "Modifier une commande", "/pages/commande/modifier.html", ["user", "employe", "administrateur"], "/js/commande/modifier.js"),
-    new Route("/suivi", "Suivre une commande", "/pages/commande/suivi.html", ["user", "employe", "administrateur"], "/js/commande/suivi.js"),
-    new Route("/avis", "Donner un avis", "/pages/commande/avis.html", ["user", "employe", "administrateur"], "/js/commande/avis.js"),
-    new Route("/horaire", "Modifier les horaires", "/pages/auth/horaire.html", ["employe", "administrateur"], "/js/auth/horaire.js"),
+    new Route("/commande", "Commander un menu", "/pages/menu/commande.html", ["user", "employe", "admin"], "/js/menu/commande.js"),
+    new Route("/modifier", "Modifier une commande", "/pages/commande/modifier.html", ["user", "employe", "admin"], "/js/commande/modifier.js"),
+    new Route("/suivi", "Suivre une commande", "/pages/commande/suivi.html", ["user", "employe", "admin"], "/js/commande/suivi.js"),
+    new Route("/avis", "Donner un avis", "/pages/commande/avis.html", ["user", "employe", "admin"], "/js/commande/avis.js"),
+    new Route("/horaire", "Modifier les horaires", "/pages/auth/horaire.html", ["employe", "admin"], "/js/auth/horaire.js"),
     new Route("/mes-commandes", "Visualiser mes commandes", "/pages/commande/mes-commandes.html", ["user"], "/js/commande/mes-commandes.js"),
-    new Route("/commandes-clients", "Visualiser les commandes clients", "/pages/commande/commandes-clients.html", ["employe", "administrateur"], "/js/commande/commandes-clients.js"),
+    new Route("/commandes-clients", "Visualiser les commandes clients", "/pages/commande/commandes-clients.html", ["employe", "admin"], "/js/commande/commandes-clients.js"),
+    new Route("/gerer", "Gerer par employe et admin", "/pages/commande/gerer.html", ["employe", "admin"], "/js/commande/gerer.js"),
 ];
     
 

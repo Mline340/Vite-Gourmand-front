@@ -1,0 +1,58 @@
+<div class="hero-scene text-center text-black">
+    <div class="hero-scene-content">
+        <h1>Modifier votre commande</h1>
+    </div>
+</div>    
+<div class="contact-container">
+    <div class="form-card">
+    <div class="info-fixe">
+        <p><strong>Numéro de commande :</strong> <span id="numero"></span></p>
+        <p><strong>Date de commande :</strong> <span id="dateCommande"></span></p>
+        <p><strong>Menu :</strong> <span id="titre"></span></p>
+        <p><strong>Prix du menu :</strong> <span id="prixMenu"></span></p>
+    </div>
+
+    <form id="formCommande">
+        <div class="form-group">
+            <label for="datePrestation">Date de prestation *</label>
+            <input type="date" id="datePrestation" required>
+        </div>
+
+        <div class="form-group">
+            <label for="heureLiv">Heure de livraison *</label>
+            <input type="time" id="heureLiv" required>
+        </div>
+
+        <div class="form-group">
+            <label for="nbPersonnes">Nombre de personnes *</label>
+            <input type="number" id="nbPersonnes" min="1" required>
+        </div>
+
+        <div class="form-group checkbox-group">
+            <label for="pretMat" style="margin: 0;">Prêt de matériel</label>
+            <input type="checkbox" id="pretMat">
+        </div>
+
+        <div class="form-group">
+            <label>Contact client :</label>
+                <input type="checkbox" id="contactTel" name="Tel" />
+                <label for="contactTel">Téléphone</label>
+                <input type="checkbox" id="contactMail" name="Mail" />
+                <label for="contactMail">Mail</label>
+        </div>
+
+        <div class="form-group">
+            <label for="modification_reason">Motif</label>
+            <div><textarea id="modification_reason" rows="4"></textarea></div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn btn-secondary">Enregistrer</button>
+            <button type="button" class="btn-back" onclick="history.back()">Retour</button>
+            <button type="button" class="btn-danger" id="btnAnnuler">Annuler la commande</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+<div id="message" class="error"></div>
