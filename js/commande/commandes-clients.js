@@ -1,27 +1,46 @@
 console.log("🔵 Commande clients chargées !");
 
+let toutesLesCommandes = []; 
+
+function getStatutsSuivantsPossibles(statutActuel) {
+    const transitions = {
+        'En attente': ['Accepté', 'Annulé'],
+        'Accepté': ['En préparation', 'Annulé'],
+        'En préparation': ['En cours de livraison', 'Annulé'],
+        'En cours de livraison': ['Livré', 'Annulé'],
+        'Livré': ['En attente du retour de matériel', 'Terminé'],
+        'En attente du retour de matériel': ['Terminé'],
+        'Terminé': [],
+        'Annulé': []
+    };
+    
+    return [statutActuel, ...(transitions[statutActuel] || [])];
+}
+
 // Récupérer et afficher les commandes
 async function fetchCommandes() {
-    console.log('🔍 Début fetchCommandes');
     try {
         const token = localStorage.getItem('apiToken');
-        console.log('🔑 Token:', token ? 'présent' : 'absent');
         
-        // 1. Récupérer la liste des utilisateurs
+        // 1. Récupérer tous les utilisateurs
         const response = await fetch('http://localhost:8000/api/users', {
-            headers: { 
+            headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         });
-        
-        console.log('📡 Status response:', response.status);
         const data = await response.json();
-        console.log('📦 Data reçue:', data);
+        
+        // Vérification importante
+        if (!data || !data.member) {  // Changé ici
+            console.error('❌ Données invalides reçues:', data);
+            document.getElementById('orders-list').innerHTML = `<div class="alert alert-danger">Aucune donnée disponible</div>`;
+            return;
+        }
         
         // 2. Récupérer chaque utilisateur avec ses commandes
         const usersWithOrders = await Promise.all(
-            data.member.map(async (user) => {
+            data.member.map(async (user) => {  
                 const userResponse = await fetch(`http://localhost:8000/api/users/${user.id}`, {
                     headers: { 
                         'Authorization': `Bearer ${token}`,
@@ -67,7 +86,9 @@ async function fetchCommandes() {
         }
         
         console.log('📋 Toutes commandes:', toutesCommandes);
+        toutesLesCommandes = toutesCommandes; // Stocker dans la variable globale
         afficherCommandes(toutesCommandes);
+        
     } catch (err) {
         console.error('❌ Erreur:', err);
         document.getElementById('orders-list').innerHTML = `<div class="alert alert-danger">Erreur: ${err.message}</div>`;
@@ -101,6 +122,8 @@ let html = '';
                             <p><strong>Adresse:</strong> ${commande.clientAdresse || 'N/A'}</p>
                             <p><strong>Code Postal:</strong> ${commande.clientCodeP || 'N/A'}</p>
                             <p><strong>Ville:</strong> ${commande.clientVille || 'N/A'}</p>
+                            <h6 class="text-primary mt-3">Menu(s)</h6>
+                            ${commande.menus?.map(menu => `<span class="badge bg-secondary me-2">${menu.titre}</span>`).join('') || 'N/A'}
                         </div>
                         <div class="col-md-6">
                             <h6 class="text-primary">Détails Commande</h6>
@@ -110,19 +133,40 @@ let html = '';
                             <p><strong>Nombre de personnes:</strong> ${commande.nombre_personne || 'N/A'}</p>
                             <p><strong>Prix menu:</strong> ${commande.prix_menu}€</p>
                             <p><strong>Prix livraison:</strong> ${commande.prix_liv || 0}€</p>
-                            <p><strong>Statut:</strong> <span class="badge bg-info">${commande.statut}</span></p>
                             <p><strong>Prêt matériel:</strong> ${commande.pret_mat ? 'Oui' : 'Non'}</p>
                             ${commande.pret_mat ? `<p><strong>Retour matériel:</strong> ${commande.retour_mat ? 'Oui' : 'Non'}</p>` : ''}
+                            <p><strong>Statut:</strong> 
+                            ${(() => {
+                                const statutsPossibles = getStatutsSuivantsPossibles(commande.statut);
+                                const isBloque = commande.statut === 'Terminé' || commande.statut === 'Annulé';
+        
+                                let optionsHtml = '';
+                                statutsPossibles.forEach(statut => {
+                                    const selected = statut === commande.statut ? 'selected' : '';
+                                    optionsHtml += `<option value="${statut}" ${selected}>${statut}</option>`;
+                             });
+        
+                                return `<select class="form-select form-select-sm d-inline-block w-auto" 
+                                         onchange="updateStatut(${commande.id}, this.value)" 
+                                            ${isBloque ? 'disabled' : ''}>
+                                            ${optionsHtml}
+                                        </select>`;
+                            })()}
+                        </p>
                         </div>
-                    </div>
-                    <div class="mt-3">
-                        <h6 class="text-primary">Menu(s)</h6>
-                        ${commande.menus?.map(menu => `<span class="badge bg-secondary me-2">${menu.titre}</span>`).join('') || 'N/A'}
                     </div>
                     ${commande.commentaire ? `
                     <div class="mt-3">
                         <h6 class="text-primary">Commentaire</h6>
                         <p class="fst-italic">${commande.commentaire}</p>
+                    </div>` : ''}
+                    ${commande.modificationReason || commande.modifiedBy || commande.ModifiedAt ? `
+                    <div class="mt-3 alert alert-warning">
+                        <h6 class="text-warning mb-2"><i class="bi bi-exclamation-triangle me-1"></i>Modification(s)</h6>
+                        ${commande.contactMethod ? `<p><strong>Méthode de contact:</strong> ${commande.contactMethod}</p>` : ''}
+                        ${commande.modificationReason ? `<p><strong>Raison:</strong> ${commande.modificationReason}</p>` : ''}
+                        ${commande.modifiedBy ? `<p><strong>Modifié par:</strong> ${commande.modifiedBy.nom} ${commande.modifiedBy.prenom}</p>` : ''}
+                        ${commande.ModifiedAt ? `<p><strong>Date modification:</strong> ${new Date(commande.ModifiedAt).toLocaleDateString('fr-FR')} à ${new Date(commande.ModifiedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</p>` : ''}
                     </div>` : ''}
                 </div>
             </div>
@@ -132,7 +176,134 @@ let html = '';
     
     container.innerHTML = html;
 }
+async function updateStatut(commandeId, nouveauStatut) {
+    const token = localStorage.getItem('apiToken');
+    if (!token) {
+        alert('Vous devez être connecté pour modifier le statut');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`http://localhost:8000/api/commandes/${commandeId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/merge-patch+json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ statut: nouveauStatut })
+        });
 
-// Lancer la fonction au chargement de la page
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Erreur serveur:', errorData);
+            alert(errorData.detail || `Erreur: ${response.status}`);
+            throw new Error(errorData.detail);
+        }
+
+        alert('Statut mis à jour avec succès');
+        await fetchCommandes(); // Recharge les commandes
+    } catch (error) {
+        console.error('Erreur:', error);
+    }
+}
+
+// Charger la liste des clients dans le select
+async function loadClients() {
+    try {
+        const token = localStorage.getItem('apiToken');
+        const response = await fetch('http://localhost:8000/api/users', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        
+        const clientSelect = document.getElementById('client');
+        if (data.member) {  
+            data.member.forEach(user => {  
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.textContent = `${user.nom} ${user.prenom}`;
+                clientSelect.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Erreur chargement clients:', error);
+    }
+}
+
+// Fonction de filtrage
+function filtrerCommandes() {
+    const statut = document.getElementById('statut').value;
+    const clientId = document.getElementById('client').value;
+    const typeDate = document.getElementById('typeDate').value;
+    const dateDebut = document.getElementById('dateDebut').value;
+    const dateFin = document.getElementById('dateFin').value;
+
+    let commandesFiltrees = [...toutesLesCommandes];
+
+    // Filtre par statut
+    if (statut) {
+        commandesFiltrees = commandesFiltrees.filter(cmd => cmd.statut === statut);
+    }
+
+    // Filtre par client
+    if (clientId) {
+        commandesFiltrees = commandesFiltrees.filter(cmd => cmd.user && cmd.user.id == clientId);
+    }
+
+   // Filtre par date
+if (dateDebut || dateFin) {
+    commandesFiltrees = commandesFiltrees.filter(cmd => {
+        const dateCommande = new Date(cmd[typeDate]);
+        dateCommande.setHours(0, 0, 0, 0);
+        
+        const debut = dateDebut ? new Date(dateDebut + 'T00:00:00') : null;
+        const fin = dateFin ? new Date(dateFin + 'T23:59:59') : null;
+
+        if (debut && fin) {
+            return dateCommande >= debut && dateCommande <= fin;
+        } else if (debut) {
+            return dateCommande >= debut;
+        } else if (fin) {
+            return dateCommande <= fin;
+        }
+        return true;
+    });
+}
+
+    afficherCommandes(commandesFiltrees);
+}
+
+// Initialisation
+function initFilters() {
+    console.log("🚀 Initialisation des filtres...");
+    
+    const btnFiltre = document.getElementById('btnFiltre');
+    const btnReset = document.getElementById('btnReset');
+    
+    if (btnFiltre) {
+        btnFiltre.addEventListener('click', filtrerCommandes);
+        console.log("✅ Event listener ajouté sur btnFiltre");
+    }
+    
+    if (btnReset) {
+        btnReset.addEventListener('click', () => {
+            document.getElementById('statut').value = '';
+            document.getElementById('client').value = '';
+            document.getElementById('typeDate').value = 'date_commande';
+            document.getElementById('dateDebut').value = '';
+            document.getElementById('dateFin').value = '';
+            afficherCommandes(toutesLesCommandes);
+        });
+        console.log("✅ Event listener ajouté sur btnReset");
+    }
+}
+
+// Lancer au chargement
 console.log("🚀 Lancement de fetchCommandes()...");
 fetchCommandes();
+loadClients();
+
+// Initialiser les filtres après un court délai pour s'assurer que le DOM est prêt
+setTimeout(initFilters, 100);
