@@ -42,7 +42,7 @@ async function chargerCommande() {
         document.getElementById('dateCommande').textContent = new Date(data.date_commande).toLocaleDateString('fr-FR');
         document.getElementById('commandeStatut').textContent = data.statut;
         
-        afficherSuiviStatut(data.statut);
+        afficherSuiviStatut(data.statut, data.ModifiedAt || data.date_commande);
         
     } catch (error) {
         console.error('Erreur:', error);
@@ -51,7 +51,7 @@ async function chargerCommande() {
     }
 }
 
-function afficherSuiviStatut(statutActuel) {
+function afficherSuiviStatut(statutActuel, dateModification) {
     const container = document.getElementById('suiviStatut');
     const indexActuel = etapesStatuts.indexOf(statutActuel);
     
@@ -71,7 +71,7 @@ function afficherSuiviStatut(statutActuel) {
                 </div>
                 <div>
                     <h6 class="mb-0" style="${isActuel ? 'font-weight: bold;' : ''}">${statut}</h6>
-                    ${isActuel ? '<small class="text-muted">Statut actuel</small>' : ''}
+                    ${isActuel ? `<small class="text-muted">Statut actuel - Mis à jour le ${new Date(dateModification).toLocaleDateString('fr-FR')} à ${new Date(dateModification).toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'})}</small>` : ''}
                 </div>
             </div>
         `;

@@ -81,7 +81,12 @@ function renderOrders(commandes) {
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h6 class="mb-0"><i class="bi bi-box me-2"></i> ${cmd.numero_commande}</h6>
-          <span class="badge bg-warning text-dark"> ${cmd.statut}</span>
+          <span class="badge ${
+              cmd.statut === 'Annulé' ? 'bg-danger' : 
+              cmd.statut === 'Terminé' ? 'bg-success' : 
+              cmd.statut === 'En attente' ? 'bg-warning text-dark' : 
+             'bg-secondary'
+            }"> ${cmd.statut}</span>
         </div>
         <hr>
         <div class="row">
