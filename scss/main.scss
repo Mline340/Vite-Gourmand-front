@@ -352,6 +352,80 @@ img {
     justify-content: center;
     align-items: center;
 }
+// Les avis page d'accueil
+.avis-section {
+    padding: 3rem 1rem;
+}
+
+.avis-carousel {
+    position: relative;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 60px;
+}
+
+.avis-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.avis-card {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+}
+
+.avis-card .rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.avis-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: auto;
+    flex-grow: 1;
+}
+
+.avis-card .author {
+    font-size: 0.85rem;
+    color: #666;
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.carousel-btn.prev { left: 0; }
+.carousel-btn.next { right: 0; }
+.carousel-btn:hover { 
+    background: $glam;
+    transform: translateY(-50%) scale(1.1);
+}
 
 // Footer
 main{margin-bottom: 350px;}

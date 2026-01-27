@@ -1,0 +1,28 @@
+<div class="hero-scene text-center text-black">
+    <div class="hero-scene-content">
+        <h1>Gérer les avis</h1>
+    </div>
+</div>
+<div class="container mt-5">
+        <h1 class="mb-4">Gestion des Avis Clients</h1>
+        
+        <ul class="nav nav-tabs mb-4" id="avisTabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-filter="En attente" href="#">
+                    En attente <span class="badge bg-warning" id="countAttente">0</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-filter="Validé" href="#">
+                    Validés <span class="badge bg-success" id="countValide">0</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-filter="Rejeté" href="#">
+                    Rejetés <span class="badge bg-danger" id="countRejete">0</span>
+                </a>
+            </li>
+        </ul>
+
+        <div id="listeAvis"></div>
+    </div>

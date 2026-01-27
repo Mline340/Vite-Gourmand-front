@@ -52,44 +52,47 @@ const LoadContentPage = async () => {
     }
   }
   
-  // NETTOYER LES ANCIENS SCRIPTS DYNAMIQUES
-  const oldScripts = document.querySelectorAll('script[data-dynamic-route]');
-  oldScripts.forEach(script => script.remove());
+ // NETTOYER LES ANCIENS SCRIPTS DYNAMIQUES
+const oldScripts = document.querySelectorAll('script[data-dynamic-route]');
+oldScripts.forEach(script => script.remove());
+
+// Récupération du contenu HTML de la route
+const response = await fetch(actualRoute.pathHtml);
+const html = await response.text();
+
+// DEBUG COMPLET
+console.log("🔍 Longueur du HTML récupéré:", html.length);
+console.log("🔍 Le HTML contient 'avisContainer' ?", html.includes('avisContainer'));
+console.log("🔍 Extrait HTML:", html.substring(0, 300));
+
+// Ajout du contenu HTML à l'élément avec l'ID "main-page"
+document.getElementById("main-page").innerHTML = html;
+
+// DEBUG après injection
+console.log("🔍 avisContainer existe après injection ?", document.getElementById("avisContainer"));
+
+// Changement du titre de la page
+document.title = actualRoute.title + " - " + websiteName;
+
+// Afficher et masquer les éléments en fonction du rôle
+showAndHideElementsForRoles();
+
+// Ajout du contenu JavaScript
+if (actualRoute.pathJS != "") {
+  var scriptTag = document.createElement("script");
+  scriptTag.setAttribute("type", "text/javascript");
+  scriptTag.setAttribute("src", actualRoute.pathJS);
+  scriptTag.setAttribute("data-dynamic-route", "true");
   
-  // Récupération du contenu HTML de la route
-  const html = await fetch(actualRoute.pathHtml).then((data) => data.text());
-  // Ajout du contenu HTML à l'élément avec l'ID "main-page"
-  document.getElementById("main-page").innerHTML = html;
+  scriptTag.onload = function() {
+    console.log("✅ Script chargé:", actualRoute.pathJS);
+    setTimeout(() => {
+      window.dispatchEvent(new Event('pageLoaded'));
+    }, 100);
+  };
 
-  // Ajout du contenu JavaScript
-  if (actualRoute.pathJS != "") {
-    // Création d'une balise script
-    var scriptTag = document.createElement("script");
-    scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", actualRoute.pathJS);
-    scriptTag.setAttribute("data-dynamic-route", "true"); // Marqueur pour nettoyage
-    
-    // Attendre que le script soit chargé
-    scriptTag.onload = function() {
-      console.log("✅ Script chargé:", actualRoute.pathJS);
-      
-      // Appeler la fonction d'initialisation spécifique à la page si elle existe
-      const pageName = actualRoute.pathJS.split('/').pop().replace('.js', '');
-      const initFunctionName = `onPageLoaded${pageName.charAt(0).toUpperCase() + pageName.slice(1)}`;
-      
-      if (typeof window[initFunctionName] === 'function') {
-        console.log(`🎯 Appel de ${initFunctionName}()`);
-        window[initFunctionName]();
-      }
-    };
-
-    scriptTag.onerror = function() {
-      console.error("❌ Erreur de chargement du script:", actualRoute.pathJS);
-    };
-
-    // Ajout de la balise script au corps du document
-    document.querySelector("body").appendChild(scriptTag);
-  }
+  document.querySelector("body").appendChild(scriptTag);
+}
 
   // Changement du titre de la page
   document.title = actualRoute.title + " - " + websiteName;

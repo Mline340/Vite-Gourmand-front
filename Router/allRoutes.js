@@ -2,7 +2,7 @@ import Route from "./Route.js";
 
 //Définir ici vos routes
 export const allRoutes = [
-    new Route("/", "Accueil", "/pages/home.html", []),
+    new Route("/", "Accueil", "/pages/home.html", [], "/js/home.js"),
     new Route("/menu", "Les Menus", "/pages/menu/menu.html", [], "/js/menu/menu.js"),
     new Route("/mentions", "Mentions Légales", "/pages/mentions.html", []),
     new Route("/cgv", "CGV", "/pages/cgv.html", []),
@@ -21,7 +21,8 @@ export const allRoutes = [
     new Route("/horaire", "Modifier les horaires", "/pages/auth/horaire.html", ["employe", "admin"], "/js/auth/horaire.js"),
     new Route("/mes-commandes", "Visualiser mes commandes", "/pages/commande/mes-commandes.html", ["user"], "/js/commande/mes-commandes.js"),
     new Route("/commandes-clients", "Visualiser les commandes clients", "/pages/commande/commandes-clients.html", ["employe", "admin"], "/js/commande/commandes-clients.js"),
-    new Route("/gerer", "Gerer par employe et admin", "/pages/commande/gerer.html", ["employe", "admin"], "/js/commande/gerer.js"),
+    new Route("/gerer", "Gerer commande par employe et admin", "/pages/commande/gerer.html", ["employe", "admin"], "/js/commande/gerer.js"),
+    new Route("/gerer-avis", "Gerer les avis par employe et admin", "/pages/commande/gerer-avis.html", ["employe", "admin"], "/js/commande/gerer-avis.js"),
 ];
     
 
