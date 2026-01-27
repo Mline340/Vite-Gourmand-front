@@ -94,6 +94,7 @@ if (actualRoute.pathJS != "") {
   document.querySelector("body").appendChild(scriptTag);
 }
 
+
   // Changement du titre de la page
   document.title = actualRoute.title + " - " + websiteName;
 

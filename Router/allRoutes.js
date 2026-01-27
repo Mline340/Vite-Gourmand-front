@@ -17,12 +17,13 @@ export const allRoutes = [
     new Route("/commande", "Commander un menu", "/pages/menu/commande.html", ["user", "employe", "admin"], "/js/menu/commande.js"),
     new Route("/modifier", "Modifier une commande", "/pages/commande/modifier.html", ["user", "employe", "admin"], "/js/commande/modifier.js"),
     new Route("/suivi", "Suivre une commande", "/pages/commande/suivi.html", ["user", "employe", "admin"], "/js/commande/suivi.js"),
-    new Route("/avis", "Donner un avis", "/pages/commande/avis.html", ["user", "employe", "admin"], "/js/commande/avis.js"),
+    new Route("/avis", "Donner un avis", "/pages/avis/avis.html", ["user", "employe", "admin"], "/js/avis/avis.js"),
     new Route("/horaire", "Modifier les horaires", "/pages/auth/horaire.html", ["employe", "admin"], "/js/auth/horaire.js"),
     new Route("/mes-commandes", "Visualiser mes commandes", "/pages/commande/mes-commandes.html", ["user"], "/js/commande/mes-commandes.js"),
     new Route("/commandes-clients", "Visualiser les commandes clients", "/pages/commande/commandes-clients.html", ["employe", "admin"], "/js/commande/commandes-clients.js"),
     new Route("/gerer", "Gerer commande par employe et admin", "/pages/commande/gerer.html", ["employe", "admin"], "/js/commande/gerer.js"),
-    new Route("/gerer-avis", "Gerer les avis par employe et admin", "/pages/commande/gerer-avis.html", ["employe", "admin"], "/js/commande/gerer-avis.js"),
+    new Route("/gerer-avis", "Gerer les avis par employe et admin", "/pages/avis/gerer-avis.html", ["employe", "admin"], "/js/avis/gerer-avis.js"),
+    new Route("/mes-avis", "Visualiser tous les avis déposer", "/pages/avis/mes-avis.html", ["user"], "/js/avis/mes-avis.js"),
 ];
     
 
