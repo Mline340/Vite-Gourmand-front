@@ -82,6 +82,12 @@ function checkCredentials(event){
     .then(async result => { 
         console.log("✅ Résultat complet de l'API:", result);
         console.log("📋 Structure de la réponse:", JSON.stringify(result, null, 2));
+
+          // Vérifier s'il y a une erreur
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
         
         // ===== STOCKAGE DU TOKEN =====
         const token = result.apiToken; 
