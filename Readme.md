@@ -13,6 +13,7 @@ instalation npm sur le pc
 installation de Bootstrap 
 installation de Bootstrap icons
 extention Live Sass Compiler extension de vs code 
+Import Chart.js
 
 # Installation Back 
 Installation PHP 8.2.12
@@ -31,4 +32,24 @@ Installation composer require --dev orm-fixtures
 # Installation base de données 
 Adminer SQL
 MongoDB Community Server
-MOngo DB Compass (interface graphique) 
+
+## Sécurité et conformité RGPD
+
+### Sécurité des données
+- Mots de passe hachés avec bcrypt via Symfony Security
+- En production, HTTPS serait activé pour chiffrer les communications
+
+### Validation des données
+- **Email** : validation format (regex front + Assert\Email back)
+- **Mot de passe** : validation longueur minimale et complexité
+- **Formulaires** : validation en temps réel côté client (JavaScript) avant soumission
+- **Données obligatoires** : vérification côté serveur (Assert\NotBlank)
+- Protection contre les injections via le système ORM de Symfony
+
+### Principe de minimisation (RGPD)
+- Collecte limitée au strict nécessaire
+- Pas de données sensibles superflues (pas de date de naissance, situation familiale, etc.)
+
+### Droits utilisateurs
+- Droit à l'effacement : suppression du compte utilisateur possible
+- Gestion des employés : possibilité de désactiver les comptes employés (champ `actif`)

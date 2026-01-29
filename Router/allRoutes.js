@@ -25,6 +25,7 @@ export const allRoutes = [
     new Route("/gerer-avis", "Gerer les avis par employe et admin", "/pages/avis/gerer-avis.html", ["employe", "admin"], "/js/avis/gerer-avis.js"),
     new Route("/mes-avis", "Visualiser tous les avis déposer", "/pages/avis/mes-avis.html", ["user"], "/js/avis/mes-avis.js"),
     new Route("/gestion-employe", "Gérer les comptes employés", "/pages/auth/gestion-employe.html", ["admin"], "/js/auth/gestion-employe.js"),
+    new Route("/statistiques", "Statistiques", "/pages/stat/statistiques.html", ["admin"], "/js/stat/statistiques.js"),
 ];
     
 
