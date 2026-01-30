@@ -44,6 +44,7 @@ async function initialiser() {
             chargerDonneesUtilisateur()
         ]);
         
+        calculerFraisLivraison();
         // Initialiser le formulaire
         initialiserFormulaireCommande();
         
@@ -340,13 +341,11 @@ function afficherDonneesUtilisateur() {
     function calculerFraisLivraison() {
     // 1. Récupérer la ville (on nettoie les espaces et on met en minuscule pour comparer)
     const villeBrute = (utilisateurConnecte.ville || "").trim().toLowerCase();
-
     console.log('🔍 Analyse de la ville pour le tarif:', villeBrute);
     
-    // Paramètres de ton devoir
+    //paramètre livraison
     const tarifBase = 5.00;
     const tarifKm = 0.59;
-    
     let message = "";
 
     if (villeBrute === "bordeaux") {  
@@ -366,9 +365,7 @@ function afficherDonneesUtilisateur() {
         infoElement.textContent = message;
     }
     
-    if (typeof mettreAJourTotalFinal === 'function') {
-    mettreAJourTotalFinal();
-    }
+    calculerPrixTotal();
     }
 
 
@@ -479,9 +476,21 @@ async function soumettreCommande() {
 
         // On calcule le prix total (Prix Menu * nb personnes + livraison)
         const nbPers = parseInt(formData.get('nombre_personne')) || 1;
-        const prixMenuTotal = (menuSelectionne.prix || 0) * nbPers;
-        const totalFinal = prixMenuTotal + fraisLivraisonCalculés; // fraisLivraisonCalculés vient de ta fonction de calcul
-        
+        const prixParPersonne = menuSelectionne.prix_par_personne || 0;
+        let prixMenuTotal = nbPers * prixParPersonne;
+
+        // Calculer la remise (même logique que calculerPrixTotal)
+        let remise = 0;
+        const personnesAuDessusMini = nbPers - (menuSelectionne.nombre_personne_mini || 0);
+        if (personnesAuDessusMini >= 5) {
+            remise = prixMenuTotal * 0.10;
+        }
+
+        prixMenuTotal = prixMenuTotal - remise;
+        const totalFinal = parseFloat((prixMenuTotal + fraisLivraisonCalculés).toFixed(2));
+        console.log('💰 Prix menu total:', prixMenuTotal);
+        console.log('🚚 Frais livraison calculés:', fraisLivraisonCalculés);
+        console.log('💵 Total final:', totalFinal);
         console.log('🍽️ Menu sélectionné:', menuSelectionne);
         console.log('🆔 ID du menu:', menuSelectionne?.id);
 
@@ -496,7 +505,8 @@ async function soumettreCommande() {
             date_prestation: formData.get('date_prestation'),
             heure_liv: formData.get('heure_liv') + ':00', 
             pret_mat: formData.get('pret_mat') === 'on',
-            prix_liv: parseFloat(fraisLivraisonCalculés.toFixed(2)), 
+            prix_menu: parseFloat(prixMenuTotal.toFixed(2)),
+            prix_liv: parseFloat(fraisLivraisonCalculés.toFixed(2)) || 0,
             total_commande: parseFloat(totalFinal.toFixed(2))
         };
         
@@ -509,6 +519,8 @@ async function soumettreCommande() {
         }
         console.log('🔑 Token utilisé:', token ? 'Présent' : 'Absent');
 
+        console.log('💸 Prix livraison envoyé:', commandeData.prix_liv, 'Type:', typeof commandeData.prix_liv);
+
         const response = await fetch('http://127.0.0.1:8000/api/commandes', {
             method: 'POST',
             headers: {
@@ -517,7 +529,7 @@ async function soumettreCommande() {
             },
          body: JSON.stringify(commandeData)
         });
-        
+       
         const responseData = await response.json();
         console.log('📥 Réponse API:', responseData);
 
@@ -531,14 +543,13 @@ async function soumettreCommande() {
         }
                 
         console.log('✅ Commande créée:', responseData);
-
+  
         // Message de succès
         alert(`Commande ${responseData.numero_commande} créée avec succès !`);
-
         // Redirection
         window.location.href = 'account.html?id=' + responseData.id;
         // OU si vous n'avez pas de page confirmation :
-        window.location.href = 'index.html';
+        window.location.href = '/menu';
         
     } catch (error) {
         console.error('❌ Erreur lors de la soumission:', error);

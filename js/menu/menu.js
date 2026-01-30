@@ -319,20 +319,20 @@ async function sauvegarderMenu() {
         // 3️⃣ FINALISATION
         // ========================================
         console.log('✅ Toutes les modifications enregistrées avec succès');
-        
+
         // Fermer la modale
         const modalElement = document.getElementById('EditionPhotoModal');
         const modal = bootstrap.Modal.getInstance(modalElement);
         if (modal) modal.hide();
-        
-        // Rafraîchir l'affichage
-        await afficherMenus();
-        
+
         // Réinitialiser le formulaire
         document.getElementById('TitreInput').value = '';
         document.getElementById('PhotoInput').value = '';
-        
+
         alert('Modifications enregistrées !');
+
+        // Rafraîchir la page pour garantir la cohérence
+        setTimeout(() => location.reload(), 500);
 
     } catch (error) {
         console.error('❌ Erreur:', error);
@@ -365,18 +365,21 @@ async function supprimerMenu() {
 
         console.log('📡 Réponse DELETE:', response.status);
 
-        if (response.ok || response.status === 204) {
+       if (response.ok || response.status === 204) {
             console.log('✅ Menu supprimé avec succès');
             
             // Fermer la modale
             const modalElement = document.getElementById('ConfirmationSuppressionModal');
             const modal = bootstrap.Modal.getInstance(modalElement);
-            if (modal) modal.hide();
+            if (modal) {
+                document.activeElement.blur();
+                modal.hide();
+            }
 
-            // Rafraîchir l'affichage
-            await afficherMenus();
-            
             alert('Menu supprimé avec succès !');
+            
+            // Rafraîchir la page
+            setTimeout(() => location.reload(), 500);
         } else {
             throw new Error('Erreur lors de la suppression');
         }
