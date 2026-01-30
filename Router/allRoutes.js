@@ -18,7 +18,7 @@ export const allRoutes = [
     new Route("/modifier", "Modifier une commande", "/pages/commande/modifier.html", ["user", "employe", "admin"], "/js/commande/modifier.js"),
     new Route("/suivi", "Suivre une commande", "/pages/commande/suivi.html", ["user", "employe", "admin"], "/js/commande/suivi.js"),
     new Route("/avis", "Donner un avis", "/pages/avis/avis.html", ["user", "employe", "admin"], "/js/avis/avis.js"),
-    new Route("/horaire", "Modifier les horaires", "/pages/auth/horaire.html", ["employe", "admin"], "/js/auth/horaire.js"),
+    new Route("/horaire", "Modifier les horaires", "/pages/horaire/horaire.html", ["employe", "admin"], "/js/horaire/horaire.js"),
     new Route("/mes-commandes", "Visualiser mes commandes", "/pages/commande/mes-commandes.html", ["user"], "/js/commande/mes-commandes.js"),
     new Route("/commandes-clients", "Visualiser les commandes clients", "/pages/commande/commandes-clients.html", ["employe", "admin"], "/js/commande/commandes-clients.js"),
     new Route("/gerer", "Gerer commande par employe et admin", "/pages/commande/gerer.html", ["employe", "admin"], "/js/commande/gerer.js"),
@@ -26,6 +26,7 @@ export const allRoutes = [
     new Route("/mes-avis", "Visualiser tous les avis déposer", "/pages/avis/mes-avis.html", ["user"], "/js/avis/mes-avis.js"),
     new Route("/gestion-employe", "Gérer les comptes employés", "/pages/auth/gestion-employe.html", ["admin"], "/js/auth/gestion-employe.js"),
     new Route("/statistiques", "Statistiques", "/pages/stat/statistiques.html", ["admin"], "/js/stat/statistiques.js"),
+    new Route("/mdpforget", "Mot de passe oublié", "/pages/auth/mdpforget.html", [], "/js/auth/mdpforget.js"),
 ];
     
 
