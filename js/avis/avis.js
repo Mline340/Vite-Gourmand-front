@@ -58,7 +58,7 @@ async function chargerCommande() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+        const response = await fetch(apiUrl + `commandes/${commandeId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -91,17 +91,19 @@ document.getElementById('formAvis').addEventListener('submit', async function(e)
     let response;
     
 try {
-    const response = await fetch('http://127.0.0.1:8000/api/avis', {
+    const userId = localStorage.getItem("userId");
+
+    const response = await fetch(apiUrl + 'avis', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-            commandeId: parseInt(commandeId),  
+            commande: `/api/commandes/${commandeId}`,  
+            user: `/api/users/${userId}`,   
             note: noteSelectionnee,
             description: commentaire,
-            statut: false
         })
     });
     
@@ -111,7 +113,7 @@ try {
     throw new Error('Erreur envoi avis');
     }
     
-  const updateResponse = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+  const updateResponse = await fetch(apiUrl + `commandes/${commandeId}`, {
     method: 'PATCH',
     headers: {
         'Content-Type': 'application/merge-patch+json',

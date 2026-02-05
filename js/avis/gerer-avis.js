@@ -130,7 +130,7 @@ async function modifierStatut(avisId, nouveauStatut) {
     const token = getToken();
     
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/avis/${avisId}`, {
+        const response = await fetch(apiUrl + `avis/${avisId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/merge-patch+json',

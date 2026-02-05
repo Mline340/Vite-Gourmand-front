@@ -29,6 +29,7 @@ if (normalizedRole !== 'employe' && normalizedRole !== 'admin') {
     window.location.href = '/account';
 }
 
+
 async function chargerCommande() {
     const token = getToken();
     
@@ -38,7 +39,7 @@ async function chargerCommande() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+        const response = await fetch( apiUrl + `commandes/${commandeId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/ld+json'
@@ -232,7 +233,7 @@ if (formCommande) {
         console.log('📤 Envoi des modifications (ADMIN):', payload);
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+            const response = await fetch(apiUrl + `commandes/${commandeId}`, {
                 method: 'PATCH',
                 headers: { 
                     'Content-Type': 'application/merge-patch+json',
@@ -281,7 +282,7 @@ if (btnAnnuler) {
         const token = getToken();
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+            const response = await fetch(apiUrl + `commandes/${commandeId}`, {
                 method: 'PATCH',
                 headers: { 
                     'Content-Type': 'application/merge-patch+json',

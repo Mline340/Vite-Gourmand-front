@@ -30,7 +30,7 @@ async function fetchCommandes() {
         const token = localStorage.getItem('apiToken');
         
         // 1. Récupérer tous les utilisateurs
-        const response = await fetch('http://localhost:8000/api/users', {
+        const response = await fetch(apiUrl + 'users', {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ async function fetchCommandes() {
         // 2. Récupérer chaque utilisateur avec ses commandes
         const usersWithOrders = await Promise.all(
             data.member.map(async (user) => {  
-                const userResponse = await fetch(`http://localhost:8000/api/users/${user.id}`, {
+                const userResponse = await fetch(apiUrl+`users/${user.id}`, {
                     headers: { 
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -93,7 +93,12 @@ async function fetchCommandes() {
         }
         
         console.log('📋 Toutes commandes:', toutesCommandes);
-        toutesLesCommandes = toutesCommandes; // Stocker dans la variable globale
+
+        toutesCommandes.sort((a, b) => {
+    return new Date(b.date_commande) - new Date(a.date_commande);
+});
+
+        toutesLesCommandes = toutesCommandes; 
         afficherCommandes(toutesCommandes);
         
     } catch (err) {
@@ -101,6 +106,7 @@ async function fetchCommandes() {
         document.getElementById('orders-list').innerHTML = `<div class="alert alert-danger">Erreur: ${err.message}</div>`;
     }
 }
+
 
 function afficherCommandes(commandes) {
     const container = document.getElementById('orders-list');
@@ -213,6 +219,7 @@ function afficherCommandes(commandes) {
     
     container.innerHTML = html;
 }
+
 async function updateStatut(commandeId, nouveauStatut) {
     const token = localStorage.getItem('apiToken');
     if (!token) {
@@ -221,7 +228,7 @@ async function updateStatut(commandeId, nouveauStatut) {
     }
     
     try {
-        const response = await fetch(`http://localhost:8000/api/commandes/${commandeId}`, {
+        const response = await fetch(apiUrl + `commandes/${commandeId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/merge-patch+json',
@@ -248,7 +255,7 @@ async function updateStatut(commandeId, nouveauStatut) {
 async function loadClients() {
     try {
         const token = localStorage.getItem('apiToken');
-        const response = await fetch('http://localhost:8000/api/users', {
+        const response = await fetch(apiUrl + 'users', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
