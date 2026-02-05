@@ -1,5 +1,12 @@
 console.log("🔵 Page mes avis chargés !");
 
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 async function loadMesAvis() {
     try {
         console.log('🌐 Appel API:', `${apiUrl}avis/mes-avis`);
@@ -35,29 +42,43 @@ function displayMesAvis(avis) {
         return;
     }
     
-   container.innerHTML = avis.map(a => `
-        <div class="card mb-3 avis-card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <h5 class="card-title">
-                            Commande #${a.commande?.numero_commande || a.commande?.id || 'N/A'}
-                            <span class="rating">${'★'.repeat(a.note)}${'☆'.repeat(5-a.note)}</span>
-                        </h5>
-                        <p class="text-muted mb-2">
-                            <small><i class="bi bi-calendar"></i> ${new Date(a.dateCreation).toLocaleDateString('fr-FR')}</small>
-                        </p>
-                        <p class="card-text">${a.description || 'Aucun commentaire'}</p>
-                    </div>
-                    <div>
-                        <span class="badge bg-${a.statut === 'Validé' ? 'success' : a.statut === 'Rejeté' ? 'danger' : 'warning'}">
-                            ${a.statut}
-                        </span>
+       container.innerHTML = avis.map(a => {
+        // ✅ SÉCURISATION : Échapper toutes les données utilisateur
+        const numeroCommande = escapeHtml(a.commande?.numero_commande || a.commande?.id || 'N/A');
+        const description = escapeHtml(a.description || 'Aucun commentaire');
+        const dateFormatee = new Date(a.dateCreation).toLocaleDateString('fr-FR');
+        
+        const etoilesPlein = '★'.repeat(a.note);
+        const etoilesVide = '☆'.repeat(5 - a.note);
+        
+        // Couleur du badge selon statut (valeur contrôlée côté serveur)
+        const badgeColor = a.statut === 'Validé' ? 'success' : 
+                          a.statut === 'Rejeté' ? 'danger' : 'warning';
+        
+        return `
+            <div class="card mb-3 avis-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title">
+                                Commande #${numeroCommande}
+                                <span class="rating">${etoilesPlein}${etoilesVide}</span>
+                            </h5>
+                            <p class="text-muted mb-2">
+                                <small><i class="bi bi-calendar"></i> ${dateFormatee}</small>
+                            </p>
+                            <p class="card-text">${description}</p>
+                        </div>
+                        <div>
+                            <span class="badge bg-${badgeColor}">
+                                ${a.statut}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 setTimeout(() => {

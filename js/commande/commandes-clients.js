@@ -1,5 +1,12 @@
 console.log("🔵 Commande clients chargées !");
 
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 let toutesLesCommandes = []; 
 
 function getStatutsSuivantsPossibles(statutActuel) {
@@ -103,8 +110,38 @@ function afficherCommandes(commandes) {
         return;
     }
     
-let html = '';
+    let html = '';
     commandes.forEach(commande => {
+        // ✅ SÉCURISATION : Échapper toutes les données utilisateur
+        const numeroCommande = escapeHtml(commande.numero_commande);
+        const clientNom = escapeHtml(commande.clientNom);
+        const clientPrenom = escapeHtml(commande.clientPrenom);
+        const clientTel = escapeHtml(commande.clientTel || 'N/A');
+        const clientAdresse = escapeHtml(commande.clientAdresse || 'N/A');
+        const clientCodeP = escapeHtml(commande.clientCodeP || 'N/A');
+        const clientVille = escapeHtml(commande.clientVille || 'N/A');
+        const commentaire = escapeHtml(commande.commentaire);
+        const modificationReason = escapeHtml(commande.modificationReason);
+        const contactMethod = escapeHtml(commande.contactMethod);
+        
+        // Échapper les titres de menus
+        const menusHtml = commande.menus?.map(menu => 
+            `<span class="badge bg-secondary me-2">${escapeHtml(menu.titre)}</span>`
+        ).join('') || 'N/A';
+        
+        // Dates (pas de risque XSS, ce sont des dates)
+        const dateCommande = new Date(commande.date_commande).toLocaleDateString('fr-FR');
+        const datePrestation = new Date(commande.date_prestation).toLocaleDateString('fr-FR');
+        const heureLiv = commande.heure_liv ? 
+            new Date(commande.heure_liv).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : 
+            'N/A';
+        
+        // Informations modifiées
+        const modifiedByNom = commande.modifiedBy ? escapeHtml(commande.modifiedBy.nom) : '';
+        const modifiedByPrenom = commande.modifiedBy ? escapeHtml(commande.modifiedBy.prenom) : '';
+        const modifiedAt = commande.ModifiedAt ? 
+            `${new Date(commande.ModifiedAt).toLocaleDateString('fr-FR')} à ${new Date(commande.ModifiedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}` : 
+            '';
         html += `
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">

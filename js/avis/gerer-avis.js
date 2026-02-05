@@ -1,3 +1,10 @@
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 let avisData = [];
 let filtreActif = 'En attente';
 
@@ -67,7 +74,15 @@ function afficherAvis() {
         return;
     }
     
-    container.innerHTML = avisFiltres.map(avis => `
+    container.innerHTML = avisFiltres.map(avis => {
+        const numeroCommande = escapeHtml(avis.commande?.numero_commande || avis.commande?.id || 'N/A');
+        const prenom = escapeHtml(avis.user?.prenom || '');
+        const nom = escapeHtml(avis.user?.nom || '');
+        const userName = avis.user ? `${prenom} ${nom}` : 'Anonyme';
+        const description = escapeHtml(avis.description || 'Aucun commentaire');
+        const dateFormatee = new Date(avis.dateCreation).toLocaleDateString('fr-FR');
+        
+        return `
         <div class="card mb-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
@@ -99,8 +114,9 @@ function afficherAvis() {
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
+
 
 function genererEtoiles(note) {
     let etoiles = '';

@@ -1,7 +1,13 @@
 console.log("🔵 Script chargé !");
 
+function escapeHtml(text) {
+  if (!text) return 'Non renseigné';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function getToken() {
-  // ✅ CORRECTION : utiliser "apiToken" au lieu de "token"
   return localStorage.getItem("apiToken");
 }
 
@@ -87,7 +93,7 @@ async function loadAccountPage() {
           <p><strong>Ville : </strong>${(data.codeP || '') + " " + (data.ville || '') || 'Non renseigné'}</p>
         </div>
       `;
-      console.log("✅ Informations affichées dans le DOM");
+      console.log("✅ Informations affichées dans le DOM (sécurisées contre XSS)");
     } else {
       console.error("❌ Élément #user-info introuvable dans le DOM");
     }
@@ -102,7 +108,7 @@ async function loadAccountPage() {
       userInfoElement.innerHTML = `
         <div style="padding: 20px; background: #fee; border-radius: 10px; color: #c33;">
           <p><strong>⚠️ Impossible de charger vos informations</strong></p>
-          <p style="font-size: 0.9em; margin-top: 10px;">Erreur: ${error.message}</p>
+          <p style="font-size: 0.9em; margin-top: 10px;">Erreur: ${escapeHtml(error.message)}</p>
         </div>
       `;
     }

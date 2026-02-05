@@ -1,3 +1,11 @@
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+
 async function chargerEmployes() {
     try {
         const response = await fetch(`${apiUrl}admin/employes`, {
@@ -62,9 +70,9 @@ async function toggleEmploye(id) {
         
         if (response.ok) {
             alert('Statut modifié avec succès');
-            chargerEmployes(); // Recharger la liste
+            chargerEmployes(); 
         } else {
-            alert('Erreur : ' + result.error);
+             alert('Erreur : ' + escapeHtml(result.error));
         }
         
     } catch (error) {
