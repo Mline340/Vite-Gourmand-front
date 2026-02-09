@@ -118,7 +118,7 @@ setTimeout(() => {
         btnValidationEmploye.textContent = "Création en cours...";
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/employees', {
+            const response = await fetch(apiUrl + 'employees', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

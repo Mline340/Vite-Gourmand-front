@@ -19,7 +19,6 @@ form.addEventListener('submit', async function(e) {
     };
 
     try {
-        // Envoyer à ton API
         const response = await fetch(apiUrl + 'contact', {
             method: 'POST',
             headers: {
@@ -29,8 +28,7 @@ form.addEventListener('submit', async function(e) {
         });
 
         if (response.ok) {
-            // Créer et afficher le message de succès
-            const successDiv = document.createElement('div');
+             const successDiv = document.createElement('div');
             successDiv.className = 'alert alert-success mt-3';
             successDiv.innerHTML = `
                 <h5 class="alert-heading">Message envoyé avec succès !</h5>

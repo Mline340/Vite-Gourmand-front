@@ -1,3 +1,11 @@
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function getAuthHeaders() {
     const token = localStorage.getItem('apiToken');
     console.log('🔑 Token:', token ? 'Existe' : 'MANQUANT');
@@ -12,9 +20,7 @@ function getAuthHeaders() {
     };
 }
 
-
 async function loadHoraires() {
-
     const user = JSON.parse(localStorage.getItem('user'));
     console.log('👤 User role:', user?.roles);
     
@@ -37,6 +43,7 @@ async function loadHoraires() {
         displayHoraires([]);
     }
 }
+
 function displayHoraires(horaires) {
     const container = document.getElementById("horaires-list");
     
@@ -56,33 +63,34 @@ function displayHoraires(horaires) {
     
     horaires.forEach((horaire, index) => {
         console.log(`📋 Horaire ${index}:`, horaire);
-    const horaireId = horaire.id || `new-${index}`;
+        const horaireId = horaire.id || `new-${index}`;
+        
+        let ouverture = '';
+        let fermeture = '';
+        let note = '';
+        
+        if (horaire.heure_ouverture && horaire.heure_ouverture !== 'NULL') {
+            ouverture = horaire.heure_ouverture.substring(0, 5);
+        }
+        
+        if (horaire.heure_fermeture && horaire.heure_fermeture !== 'NULL') {
+            fermeture = horaire.heure_fermeture.substring(0, 5);
+        }
+        
+        if (horaire.note && horaire.note !== 'NULL') {
+            note = horaire.note;
+        }
+        
+        html += `
+            <tr data-id="${escapeHtml(String(horaire.id || ''))}" data-jour="${escapeHtml(horaire.jour)}">
+                <td>${escapeHtml(horaire.jour)}</td>
+                <td><input type="time" class="form-control" value="${escapeHtml(ouverture)}" id="ouverture-${escapeHtml(String(horaireId))}"></td>
+                <td><input type="time" class="form-control" value="${escapeHtml(fermeture)}" id="fermeture-${escapeHtml(String(horaireId))}"></td>
+                <td><input type="text" class="form-control" placeholder="Ex: Fermé" value="${escapeHtml(note)}" id="note-${escapeHtml(String(horaireId))}"></td>
+            </tr>
+        `;
+    });
     
-    let ouverture = '';
-    let fermeture = '';
-    let note = '';
-    
-    if (horaire.heure_ouverture && horaire.heure_ouverture !== 'NULL') {
-        ouverture = horaire.heure_ouverture.substring(0, 5);
-    }
-    
-    if (horaire.heure_fermeture && horaire.heure_fermeture !== 'NULL') {
-        fermeture = horaire.heure_fermeture.substring(0, 5);
-    }
-    
-    if (horaire.note && horaire.note !== 'NULL') {
-        note = horaire.note;
-    }
-    
-    html += `
-        <tr data-id="${horaire.id || ''}" data-jour="${horaire.jour}">
-            <td>${horaire.jour}</td>
-            <td><input type="time" class="form-control" value="${ouverture}" id="ouverture-${horaireId}"></td>
-            <td><input type="time" class="form-control" value="${fermeture}" id="fermeture-${horaireId}"></td>
-            <td><input type="text" class="form-control" placeholder="Ex: Fermé" value="${note}" id="note-${horaireId}"></td>
-        </tr>
-    `;
-});
     console.log('🎨 HTML généré:', html);
     html += '</tbody></table></div>';
     html += '<button class="btn btn-primary mt-3" onclick="saveAllHoraires()"><i class="bi bi-save me-2"></i>Enregistrer tous les horaires</button>'; 
@@ -106,19 +114,20 @@ async function saveAllHoraires() {
             console.warn(`Éléments manquants pour ${horaireId}`);
             return;
         }
-            console.log(`🔍 Row ${index}:`, {
-                horaireId,
-                ouverture_value: ouvertureEl.value,
-                fermeture_value: fermetureEl.value,
-                note_value: noteEl.value
-            });
+        
+        console.log(`🔍 Row ${index}:`, {
+            horaireId,
+            ouverture_value: ouvertureEl.value,
+            fermeture_value: fermetureEl.value,
+            note_value: noteEl.value
+        });
 
         const ouverture = ouvertureEl.value.trim() || null;
         const fermeture = fermetureEl.value.trim() || null;
         const note = noteEl.value || null;
         
         const method = id ? 'PUT' : 'POST';
-        const url = id ? `${apiUrl}horaires/${id}` : `${apiUrl}horaires`;
+        const url = id ? `${apiUrl}horaires/${encodeURIComponent(id)}` : `${apiUrl}horaires`;
         
         const bodyData = { jour: jour };
         if (ouverture) bodyData.heure_ouverture = ouverture;

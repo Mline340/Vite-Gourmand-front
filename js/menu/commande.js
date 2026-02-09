@@ -1,3 +1,10 @@
+function escapeHtml(text) {
+  if (!text) return 'Non renseigné';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 // ========================================
 // VARIABLES GLOBALES
 // ========================================
@@ -118,7 +125,7 @@ async function chargerMenuPourCommande(menuId) {
     console.log('📡 Chargement du menu ID:', menuId);
     
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/menus/${menuId}`);
+        const response = await fetch(apiUrl + `menus/${encodeURIComponent(menuId)}`);
         
         if (!response.ok) {
             throw new Error(`Erreur HTTP: ${response.status}`);
@@ -148,7 +155,7 @@ async function chargerDonneesUtilisateur() {
     if (!userId || !token) return;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}`, {
+        const response = await fetch(apiUrl + `users/${encodeURIComponent(userId)}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json'
@@ -521,7 +528,7 @@ async function soumettreCommande() {
 
         console.log('💸 Prix livraison envoyé:', commandeData.prix_liv, 'Type:', typeof commandeData.prix_liv);
 
-        const response = await fetch('http://127.0.0.1:8000/api/commandes', {
+        const response = await fetch(apiUrl + 'commandes', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -547,7 +554,7 @@ async function soumettreCommande() {
         // Message de succès
         alert(`Commande ${responseData.numero_commande} créée avec succès !`);
         // Redirection
-        window.location.href = 'account.html?id=' + responseData.id;
+        window.location.href = 'account.html?id=' + encodeURIComponent(responseData.id);
         // OU si vous n'avez pas de page confirmation :
         window.location.href = '/menu';
         
@@ -581,7 +588,7 @@ function afficherErreur(message) {
     alertDiv.role = 'alert';
     alertDiv.innerHTML = `
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        ${message}
+        ${escapeHtml(message)}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
     
@@ -602,7 +609,7 @@ function afficherSucces(message) {
     alertDiv.role = 'alert';
     alertDiv.innerHTML = `
         <i class="bi bi-check-circle-fill me-2"></i>
-        ${message}
+        ${escapeHtml(message)}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
     
@@ -618,7 +625,7 @@ function afficherAvertissement(message) {
     alertDiv.role = 'alert';
     alertDiv.innerHTML = `
         <i class="bi bi-exclamation-circle-fill me-2"></i>
-        ${message}
+        ${escapeHtml(message)}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
     

@@ -1,4 +1,13 @@
 console.log("🔵 Page suivi commande chargé !");
+
+function escapeHtml(text) {
+  if (!text) return 'Non renseigné';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+
 const commandeId = new URLSearchParams(window.location.search).get('id');
 
 function getToken() {
@@ -24,7 +33,7 @@ async function chargerCommande() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+        const response = await fetch(apiUrl + `commandes/${encodeURIComponent(commandeId)}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -70,7 +79,7 @@ function afficherSuiviStatut(statutActuel, dateModification) {
                     </div>
                 </div>
                 <div>
-                    <h6 class="mb-0" style="${isActuel ? 'font-weight: bold;' : ''}">${statut}</h6>
+                    <h6 class="mb-0" style="${isActuel ? 'font-weight: bold;' : ''}">${escapeHtml(statut)}</h6>
                     ${isActuel ? `<small class="text-muted">Statut actuel - Mis à jour le ${new Date(dateModification).toLocaleDateString('fr-FR')} à ${new Date(dateModification).toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'})}</small>` : ''}
                 </div>
             </div>

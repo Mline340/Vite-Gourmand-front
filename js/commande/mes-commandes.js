@@ -1,4 +1,13 @@
 console.log("🔵 Page mes commandes chargée !");
+
+function escapeHtml(text) {
+  if (!text) return 'Non renseigné';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+
 const commandeId = new URLSearchParams(window.location.search).get('id');
 
 function getToken() {
@@ -7,11 +16,8 @@ function getToken() {
     return token;
 }
 
-
-//AFFICHER COMMANDE CLIENT
 async function loadUserOrders() {
   console.log("🟣 loadUserOrders() appelée");
-
   const token = getToken();
   const userId = localStorage.getItem("userId");
   console.log("👤 userId:", userId);
@@ -41,11 +47,6 @@ async function loadUserOrders() {
     const commandes = await response.json();
     console.log("✅ Commandes reçues:", commandes);
 
-    console.log("🔍 Type de commandes:", typeof commandes);
-    console.log("🔍 Clés disponibles:", Object.keys(commandes));
-    console.log("🔍 commandes.member:", commandes.member);
-    console.log("🔍 commandes['member']:", commandes['member']);
-
     const commandesArray = commandes.member || commandes["hydra:member"] || [];
     console.log("📦 Nombre de commandes:", commandesArray.length);
 
@@ -60,8 +61,6 @@ function renderOrders(commandes) {
     console.log("🎨 renderOrders appelée avec:", commandes);
     const container = document.getElementById("orders-list");
     console.log("📦 Container trouvé:", container);
-
-
 
     if (!container) {
         console.error("❌ CRITICAL: #orders-list introuvable dans le DOM !");
@@ -80,24 +79,24 @@ function renderOrders(commandes) {
     <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h6 class="mb-0"><i class="bi bi-box me-2"></i> ${cmd.numero_commande}</h6>
+          <h6 class="mb-0"><i class="bi bi-box me-2"></i> ${escapeHtml(cmd.numero_commande)}</h6>
           <span class="badge ${
               cmd.statut === 'Annulé' ? 'bg-danger' : 
               cmd.statut === 'Terminé' ? 'bg-success' : 
               cmd.statut === 'En attente' ? 'bg-warning text-dark' : 
              'bg-secondary'
-            }"> ${cmd.statut}</span>
+            }"> ${escapeHtml(cmd.statut)}</span>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-6">
               <p class="mb-2"><strong>Date commande :</strong> ${new Date(cmd.date_commande).toLocaleDateString('fr-FR')}</p>
               <p class="mb-2"><strong>Date prestation :</strong> ${new Date(cmd.date_prestation).toLocaleDateString('fr-FR')} à ${new Date(cmd.heure_liv).toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'})}</p>
-              <p class="mb-2"><strong>Personnes :</strong> ${cmd.nombre_personne}</p>
+              <p class="mb-2"><strong>Personnes :</strong> ${escapeHtml(String(cmd.nombre_personne))}</p>
             </div>
          <div class="col-md-6">   
-              <p class="mb-2"><strong>Prix menu :</strong> ${cmd.prix_menu} €</p>
-              <p class="mb-2"><strong>Prix liv :</strong> ${cmd.prix_liv} €</p>
+              <p class="mb-2"><strong>Prix menu :</strong> ${escapeHtml(String(cmd.prix_menu))} €</p>
+              <p class="mb-2"><strong>Prix liv :</strong> ${escapeHtml(String(cmd.prix_liv))} €</p>
               <p class="mb-2"><strong>Matériel prêt :</strong> ${cmd.pret_mat ? "Oui" : "Non"}</p>
               <p class="mb-2"><strong>Matériel retourné :</strong> ${cmd.retour_mat ? "Oui" : "Non"}</p>
           </div>
@@ -105,7 +104,7 @@ function renderOrders(commandes) {
        <hr>
                 <div class="d-flex justify-content-end gap-2">
                     ${cmd.statut === 'Terminé' && !cmd.avisDepose ? 
-                    `<a href="/avis?id=${cmd.id}" class="btn btn-sm btn-outline-success">
+                    `<a href="/avis?id=${encodeURIComponent(cmd.id)}" class="btn btn-sm btn-outline-success">
                         <i class="bi bi-star me-1"></i>Donner un avis
                     </a>` : 
                     cmd.statut === 'Terminé' && cmd.avisDepose ?
@@ -113,7 +112,7 @@ function renderOrders(commandes) {
                         <i class="bi bi-check-circle me-1"></i>Avis déposé
                     </span>` :
                     ''}
-                    <a href="/suivi?id=${cmd.id}" class="btn btn-sm btn-outline-secondary">
+                    <a href="/suivi?id=${encodeURIComponent(cmd.id)}" class="btn btn-sm btn-outline-secondary">
                         <i class="bi bi-eye me-1"></i>Suivi
                     </a>
                 </div>
@@ -122,15 +121,9 @@ function renderOrders(commandes) {
   `).join("");
   console.log("✅ Rendu HTML terminé");
 }
-// APPEL AUTOMATIQUE
-console.log("🚀 Tentative d'appel automatique...");
+
 if (document.readyState === 'loading') {
-    console.log("⏳ DOM en chargement - Attente DOMContentLoaded");
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log("✅ DOMContentLoaded déclenché");
-        loadUserOrders();
-    });
+    document.addEventListener('DOMContentLoaded', loadUserOrders);
 } else {
-    console.log("✅ DOM déjà chargé - Appel immédiat");
     loadUserOrders();
 }

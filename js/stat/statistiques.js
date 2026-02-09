@@ -1,5 +1,14 @@
 console.log("🔵 Statistique chargées !");
 
+
+// FONCTION DE SÉCURITÉ CONTRE XSS
+function escapeHtml(text) {
+    if (!text) return 'Non renseigné';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function loadChartJS() {
     return new Promise((resolve, reject) => {
         if (typeof Chart !== 'undefined') {
@@ -73,30 +82,58 @@ function createChart(stats) {
 }
 
 function createTable(stats) {
-    const table = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Menu</th>
-                    <th>Nb commandes</th>
-                    <th>Prix/personne</th>
-                    <th>CA brut</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${stats.map(s => `
-                    <tr>
-                        <td>${s.menuLibelle}</td>
-                        <td>${s.nombreCommandes}</td>
-                        <td>${s.prixParPersonne}€</td>
-                        <td>${s.chiffreAffaires}€</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `;
+    const tableContainer = document.getElementById('statsTable');
     
-    document.getElementById('statsTable').innerHTML = table;
+    // 🔒 SÉCURITÉ XSS : Créer le tableau de façon sécurisée
+    const table = document.createElement('table');
+    
+    // En-tête
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    
+    ['Menu', 'Nb commandes', 'Prix/personne', 'CA brut'].forEach(headerText => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    // Corps du tableau
+    const tbody = document.createElement('tbody');
+    
+    stats.forEach(s => {
+        const row = document.createElement('tr');
+        
+        // Menu
+        const tdMenu = document.createElement('td');
+        tdMenu.textContent = s.menuLibelle;
+        row.appendChild(tdMenu);
+        
+        // Nombre de commandes
+        const tdNb = document.createElement('td');
+        tdNb.textContent = s.nombreCommandes;
+        row.appendChild(tdNb);
+        
+        // Prix par personne
+        const tdPrix = document.createElement('td');
+        tdPrix.textContent = s.prixParPersonne + '€';
+        row.appendChild(tdPrix);
+        
+        // Chiffre d'affaires
+        const tdCA = document.createElement('td');
+        tdCA.textContent = s.chiffreAffaires + '€';
+        row.appendChild(tdCA);
+        
+        tbody.appendChild(row);
+    });
+    
+    table.appendChild(tbody);
+    
+    // Remplacer le contenu
+    tableContainer.innerHTML = '';
+    tableContainer.appendChild(table);
 }
 
 // Charge les stats au chargement de la page

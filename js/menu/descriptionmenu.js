@@ -1,6 +1,16 @@
 console.log("🔵 Script descriptionmenu.js chargé !");
 
 // ========================================
+// FONCTION DE SÉCURITÉ CONTRE XSS
+// ========================================
+function escapeHtml(text) {
+    if (!text) return 'Non renseigné';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// ========================================
 // RÉCUPÉRATION DE L'ID DU MENU DEPUIS L'URL
 // ========================================
 function getMenuIdFromUrl() {
@@ -67,13 +77,13 @@ async function afficherMenu(menu) {
     if (menu.plats && menu.plats.length > 0 && menu.plats[0].photo) {
         const photo = menu.plats[0].photo;
         if (photo.startsWith('/uploads')) {
-            photoUrl = 'http://127.0.0.1:8000' + photo;
+            photoUrl = apiUrl.replace('/api/', '') + photo;
         } else if (photo.startsWith('http')) {
             photoUrl = photo;
         }
     }
     document.getElementById('menu-photo').src = photoUrl;
-    document.getElementById('menu-photo').alt = menu.titre;
+    document.getElementById('menu-photo').alt = escapeHtml(menu.titre);
 
     // Titre
     document.getElementById('menu-titre').textContent = menu.titre;
@@ -100,7 +110,7 @@ async function afficherMenu(menu) {
         try {
             // Si c'est un IRI, on fait un appel API
             if (typeof menu.regime === 'string' && menu.regime.startsWith('/api/')) {
-                const response = await fetch('http://127.0.0.1:8000' + menu.regime);
+                const response = await fetch(apiUrl.replace('/api/', '') + menu.regime);
                 const regimeData = await response.json();
                 regimeContainer.style.display = 'block';
                 regimeElement.textContent = regimeData.libelle || regimeData.nom || 'Non spécifié';
@@ -126,7 +136,7 @@ async function afficherMenu(menu) {
         try {
             // Si c'est un IRI, on fait un appel API
             if (typeof menu.theme === 'string' && menu.theme.startsWith('/api/')) {
-                const response = await fetch('http://127.0.0.1:8000' + menu.theme);
+                const response = await fetch(apiUrl.replace('/api/', '') + menu.theme);
                 const themeData = await response.json();
                 themeContainer.style.display = 'block';
                 themeElement.textContent = themeData.libelle || themeData.nom || 'Non spécifié';
@@ -156,9 +166,9 @@ if (menu.plats && menu.plats.length > 0) {
             // Extraire l'ID du plat
             let platUrl;
             if (plat['@id']) {
-                platUrl = 'http://127.0.0.1:8000' + plat['@id'];
+                platUrl = apiUrl.replace('/api/', '') + plat['@id'];
             } else if (plat.id) {
-                platUrl = `http://127.0.0.1:8000/api/plats/${plat.id}`;
+                platUrl = apiUrl + `plats/${plat.id}`;
             } else {
                 return null;
             }
@@ -180,7 +190,7 @@ if (menu.plats && menu.plats.length > 0) {
                 // Si ce sont des IRIs (comme "/api/allergenes/1")
                 if (typeof plat.allergenes[0] === 'string' && plat.allergenes[0].startsWith('/api/')) {
                     const allergenesPromises = plat.allergenes.map(iri => 
-                        fetch('http://127.0.0.1:8000' + iri)
+                        fetch(apiUrl.replace('/api/', '') + iri)
                             .then(r => r.json())
                             .catch(err => {
                                 console.error('Erreur récupération allergène:', iri, err);
@@ -211,10 +221,14 @@ if (menu.plats && menu.plats.length > 0) {
         
         if (allergenesUniques.length > 0) {
             allergenesContainer.style.display = 'block';
-            const allergenesHtml = allergenesUniques
-                .map(allergene => `<span class="badge bg-warning text-dark me-2">${allergene.libelle || allergene.nom}</span>`)
-                .join('');
-            allergenesElement.innerHTML = allergenesHtml;
+            // 🔒 SÉCURITÉ XSS : Création des badges de façon sécurisée
+            allergenesElement.innerHTML = '';
+            allergenesUniques.forEach(allergene => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-warning text-dark me-2';
+                badge.textContent = allergene.libelle || allergene.nom;
+                allergenesElement.appendChild(badge);
+            });
         } else {
             allergenesContainer.style.display = 'none';
         }

@@ -1,4 +1,14 @@
 // ========================================
+// FONCTION DE SÉCURITÉ CONTRE XSS
+// ========================================
+function escapeHtml(text) {
+    if (!text) return 'Non renseigné';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// ========================================
 // FONCTION DE FILTRAGE
 // ========================================
 function filtrerMenus() {
@@ -171,38 +181,64 @@ function afficherMenus(menusFiltres) {
             
             if (premierPlat.photo) {
                 if (premierPlat.photo.startsWith('/uploads')) {
-                    photo = 'http://127.0.0.1:8000' + premierPlat.photo;
+                    photo = apiUrl.replace('/api/', '') + premierPlat.photo;
                 } else if (premierPlat.photo.startsWith('http')) {
                     photo = premierPlat.photo;
                 } else {
-                    photo = 'http://127.0.0.1:8000/uploads/photos/' + premierPlat.photo;
+                    photo = apiUrl.replace('/api/', '') + '/uploads/photos/' + premierPlat.photo;
                 }
             }
         }
         
-        // Créer la carte avec le même HTML que menu.js
+        // 🔒 SÉCURITÉ XSS : Créer la carte de façon sécurisée
         const col = document.createElement('div');
         col.className = 'col-12 col-md-4 text-center mb-3 mb-md-0 p-3';
         
-        col.innerHTML = `
-            <div class="image-card text-white">
-                <img src="${photo}" alt="${menu.titre}" class="rounded w-100">
-                <a href="/descriptionmenu?id=${menuId}" class="titre-image">${menu.titre}</a>   
-                <div class="action-image-buttons" data-show="admin">
-                    <button type="button" class="btn btn-outline-light btn-edit-menu" 
-                            data-menu-id="${menuId}" 
-                            data-plat-id="${platId || ''}"
-                            data-menu-titre="${menu.titre}">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-light btn-delete-menu" 
-                            data-menu-id="${menuId}">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </div>         
-            </div>
-        `;
+        const imageCard = document.createElement('div');
+        imageCard.className = 'image-card text-white';
         
+        // Image
+        const img = document.createElement('img');
+        img.src = photo;
+        img.alt = escapeHtml(menu.titre);
+        img.className = 'rounded w-100';
+        
+        // Lien titre
+        const lien = document.createElement('a');
+        lien.href = `/descriptionmenu?id=${menuId}`;
+        lien.className = 'titre-image';
+        lien.textContent = menu.titre;
+        
+        // Boutons d'action
+        const actionButtons = document.createElement('div');
+        actionButtons.className = 'action-image-buttons';
+        actionButtons.setAttribute('data-show', 'admin');
+        
+        // Bouton éditer
+        const btnEdit = document.createElement('button');
+        btnEdit.type = 'button';
+        btnEdit.className = 'btn btn-outline-light btn-edit-menu';
+        btnEdit.setAttribute('data-menu-id', menuId);
+        btnEdit.setAttribute('data-plat-id', platId || '');
+        btnEdit.setAttribute('data-menu-titre', menu.titre);
+        btnEdit.innerHTML = '<i class="bi bi-pencil-square"></i>';
+        
+        // Bouton supprimer
+        const btnDelete = document.createElement('button');
+        btnDelete.type = 'button';
+        btnDelete.className = 'btn btn-outline-light btn-delete-menu';
+        btnDelete.setAttribute('data-menu-id', menuId);
+        btnDelete.innerHTML = '<i class="bi bi-trash"></i>';
+        
+        // Assembler les éléments
+        actionButtons.appendChild(btnEdit);
+        actionButtons.appendChild(btnDelete);
+        
+        imageCard.appendChild(img);
+        imageCard.appendChild(lien);
+        imageCard.appendChild(actionButtons);
+        
+        col.appendChild(imageCard);
         container.appendChild(col);
     });
 

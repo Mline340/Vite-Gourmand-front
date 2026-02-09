@@ -171,7 +171,7 @@ window.supprimerMonCompte = async function() {
     alert("Une erreur est survenue lors de la suppression");
   }
 };
-// Lancer la fonction au chargement de la page
+
 console.log("🚀 Lancement de loadAccountPage()...");
 loadAccountPage();
 

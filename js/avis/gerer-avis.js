@@ -21,7 +21,7 @@ async function chargerAvis() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/avis', {
+        const response = await fetch(apiUrl + 'avis', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

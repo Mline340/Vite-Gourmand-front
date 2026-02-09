@@ -1,3 +1,11 @@
+// FONCTION DE SÉCURITÉ CONTRE XSS
+function escapeHtml(text) {
+    if (!text) return 'Non renseigné';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 async function loadAvis() {
     try {
         const url = `${apiUrl}avis/valides?statut=validé&order[dateCreation]=desc&pagination=false`;
@@ -19,8 +27,6 @@ async function loadAvis() {
 
         const avis = data['hydra:member'] || data.member || [];
         console.log('📌 Avis à afficher:', avis);
-        console.log('🔍 Premier avis complet:', JSON.stringify(avis[0], null, 2));
-        console.log('🔍 User du premier avis:', avis[0]?.user);
 
         displayAvis(avis);
     } catch (error) {
@@ -32,20 +38,40 @@ function displayAvis(avis) {
     const container = document.getElementById('avisContainer');
     
     if (!container) {
-        console.error('❌ CONTAINER INTROUVABLE - Vérifie que home.html contient bien id="avisContainer"');
-        console.log('Contenu de main-page:', document.getElementById('main-page').innerHTML);
+        console.error('❌ CONTAINER INTROUVABLE');
         return;
     }
 
-    console.log('🔍 Premier avis avec user:', avis[0]);
+    // ✅ Vider le container de façon sécurisée
+    container.replaceChildren();
     
-    container.innerHTML = avis.map(a => `
-        <div class="avis-card">
-            <div class="rating">${'★'.repeat(a.note)}${'☆'.repeat(5-a.note)}</div>
-            <small class="text-muted">Par ${a.user ? `${a.user.prenom} ${a.user.nom}` : 'Anonyme'} - ${new Date(a.dateCreation).toLocaleDateString()}</small>
-            <p class="mt-2">${a.description}</p>
-        </div>
-    `).join('');
+    avis.forEach(a => {
+        // Créer la carte d'avis
+        const card = document.createElement('div');
+        card.className = 'avis-card';
+        
+        // Rating
+        const rating = document.createElement('div');
+        rating.className = 'rating';
+        rating.textContent = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
+        card.appendChild(rating);
+        
+        // Infos (auteur + date)
+        const info = document.createElement('small');
+        info.className = 'text-muted';
+        const auteur = a.user ? `${escapeHtml(a.user.prenom)} ${escapeHtml(a.user.nom)}` : 'Anonyme';
+        const date = new Date(a.dateCreation).toLocaleDateString();
+        info.textContent = `Par ${auteur} - ${date}`;
+        card.appendChild(info);
+        
+        // Description
+        const description = document.createElement('p');
+        description.className = 'mt-2';
+        description.textContent = a.description; // ✅ textContent protège contre XSS
+        card.appendChild(description);
+        
+        container.appendChild(card);
+    });
     
     setupCarousel(avis.length);
 }
@@ -68,7 +94,6 @@ function setupCarousel(total) {
     };
 }
 
-// Polling pour attendre le DOM
 let attempts = 0;
 
 function waitForContainer() {
@@ -84,9 +109,7 @@ function waitForContainer() {
         setTimeout(waitForContainer, 100);
     } else {
         console.error("❌ ABANDON après 10 tentatives");
-        console.log("📄 Contenu actuel de main-page:", document.getElementById('main-page').innerHTML);
     }
 }
-
 
 window.addEventListener('pageLoaded', waitForContainer);
