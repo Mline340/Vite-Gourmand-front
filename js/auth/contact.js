@@ -1,7 +1,6 @@
-/*const form = document.getElementById('contactForm');
-const successMessage = document.querySelector('.success-message');
+const form = document.getElementById('contactForm');
 
-form.addEventListener('submit', function(e) {
+form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     // Validation Bootstrap
@@ -11,36 +10,45 @@ form.addEventListener('submit', function(e) {
         return;
     }
 
-    sendEmail()
+    // Récupérer les données du formulaire
+    const formData = {
+        nom: document.getElementById('Nom').value,
+        email: document.getElementById('email').value,
+        sujet: document.getElementById('sujet').value,
+        message: document.getElementById('message').value
+    };
 
-    // Afficher le message de succès
-    successMessage.style.display = 'block';
-    form.reset();
-    form.classList.remove('was-validated');
+    try {
+        // Envoyer à ton API
+        const response = await fetch(apiUrl + 'contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
 
-    // Masquer le message après 5 secondes
-    setTimeout(() => {
-        successMessage.style.display = 'none';
-    }, 5000);
+        if (response.ok) {
+            // Créer et afficher le message de succès
+            const successDiv = document.createElement('div');
+            successDiv.className = 'alert alert-success mt-3';
+            successDiv.innerHTML = `
+                <h5 class="alert-heading">Message envoyé avec succès !</h5>
+                <p class="mb-0">Merci pour votre message. Nous vous répondrons dans les plus brefs délais.</p>
+            `;
+            form.parentElement.insertBefore(successDiv, form);
+            
+            // Réinitialiser le formulaire
+            form.reset();
+            form.classList.remove('was-validated');
+
+            // Masquer le message après 5 secondes
+            setTimeout(() => successDiv.remove(), 5000);
+        } else {
+            alert('Erreur lors de l\'envoi du message');
+        }
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur lors de l\'envoi du message');
+    }
 });
-
-// Réinitialiser la validation lors du reset
-form.addEventListener('reset', function() {
-    form.classList.remove('was-validated');
-    successMessage.style.display = 'none';
-});
-
-function sendEmail(mailEmetteur) {
-    Email.send({
-        Host: "smtp.yourisp.com",
-        Username: "nom_utilisateur",
-        Password: "password",
-        To: 'destinataire@exemple.com',
-        From: mailEmetteur,
-        Subject: "Email de Test",
-        Body: "Ceci est un email de test envoyé en utilisant SMTP.js"
-    })
-    .then(function (message) {
-        alert("Email envoyé avec succès") // Message d'alerte en cas de succès de l'envoi de l'email
-    });
-}*/

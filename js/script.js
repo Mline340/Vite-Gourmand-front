@@ -92,5 +92,47 @@ function showAndHideElementsForRoles() {
         }
     });
 }
+
+
 // Lancer l'affichage au chargement de la page
-document.addEventListener("DOMContentLoaded", showAndHideElementsForRoles);
+document.addEventListener("DOMContentLoaded", function() {
+    showAndHideElementsForRoles();
+    afficherHoraires();
+});
+
+// ===== AFFICHAGE DES HORAIRES =====
+function afficherHoraires() {
+    fetch(apiUrl + 'horaires', {
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // data est déjà un tableau direct
+        const horaires = Array.isArray(data) ? data : (data['hydra:member'] || data.member || []);
+        const container = document.getElementById('horaires-footer');
+        
+        if (!container) {
+            console.error('❌ Container horaires-footer introuvable');
+            return;
+        }
+        
+        if (horaires.length === 0) {
+            container.innerHTML = '<h4>Horaires d\'ouverture</h4><p>Aucun horaire disponible</p>';
+            return;
+        }
+        
+        let html = '<h6><u>Horaires d\'ouverture</u></h6>';
+        horaires.forEach(horaire => {
+            html += `<p>${horaire.jour}: ${horaire.heure_ouverture} - ${horaire.heure_fermeture}`;
+            if (horaire.note) {
+                html += ` <em>(${horaire.note})</em>`;
+            }
+            html += '</p>';
+        });
+        
+        container.innerHTML = html;
+    })
+    .catch(error => console.error('Erreur horaires:', error));
+}
