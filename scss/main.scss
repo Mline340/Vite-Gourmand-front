@@ -318,8 +318,13 @@ img {
     padding: 0 60px;
 }
 
+.avis-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
 .avis-container {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     padding: 1rem;
@@ -327,6 +332,7 @@ img {
 }
 
 .avis-card {
+    flex: 0 0 calc(25% - 1.125rem);
     padding: 1.5rem;
     background: white;
     border-radius: 12px;
@@ -380,6 +386,23 @@ img {
     background: $glam;
     transform: translateY(-50%) scale(1.1);
 }
+
+@media (max-width: 768px) {
+    .avis-card {
+        flex: 0 0 100%; 
+    }
+    
+    .avis-carousel {
+        padding: 0 50px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.4rem;
+    }
+}
+
 // Tableau employé 
 table {
     width: 90%;
@@ -437,13 +460,20 @@ button {
     }
 }
 // Footer
-main{margin-bottom: 350px;}
+main {
+    margin-bottom: 350px;
+    
+    @media (max-width: 768px) {
+        margin-bottom: 400px; 
+    }
+}
 footer.footer {
     position: absolute;
-    bottom: 0%;
+    bottom: 0;
     width: 100%;
     background-color: $primary;
     font-family: $font-family-sans-serif; color: white;
+    padding: 20px 0;
     
 }
 

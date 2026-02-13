@@ -507,7 +507,7 @@ async function soumettreCommande() {
 
         const commandeData = {
             menus: [menuSelectionne['@id']],
-            User: `/api/users/${utilisateurConnecte.id}`,
+            user: `/api/users/${utilisateurConnecte.id}`,
             nombre_personne: parseInt(formData.get('nombre_personne')),
             date_prestation: formData.get('date_prestation'),
             heure_liv: formData.get('heure_liv') + ':00', 
@@ -542,11 +542,8 @@ async function soumettreCommande() {
 
         if (!response.ok) {
             console.error('❌ Détails erreur:', responseData);
+            console.log('🔍 Violations:', responseData.violations);
             throw new Error(responseData.message || 'Erreur lors de la création de la commande');
-        }
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Erreur lors de la création de la commande');
         }
                 
         console.log('✅ Commande créée:', responseData);

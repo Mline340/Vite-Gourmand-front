@@ -79,19 +79,50 @@ function displayAvis(avis) {
 function setupCarousel(total) {
     let current = 0;
     const container = document.getElementById('avisContainer');
-    
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    function updatePosition() {
+        if (isMobile()) {
+            // Mobile : déplace de (largeur carte + gap)
+            const cardElement = container.querySelector('.avis-card');
+            if (cardElement) {
+                const cardWidth = cardElement.offsetWidth;
+                const gap = 16; 
+                container.style.transform = `translateX(-${current * (cardWidth + gap)}px)`;
+            }
+        } else {
+            // Desktop : 25% par carte
+            container.style.transform = `translateX(-${current * 25}%)`;
+        }
+    }
+    
     if (prevBtn) prevBtn.onclick = () => {
-        current = (current - 1 + total) % total;
-        container.style.transform = `translateX(-${current * 100}%)`;
+        if (current > 0) {
+            current--;
+            updatePosition();
+        }
     };
     
     if (nextBtn) nextBtn.onclick = () => {
-        current = (current + 1) % total;
-        container.style.transform = `translateX(-${current * 100}%)`;
+        const maxSlides = isMobile() ? total - 1 : total - 4;
+        if (current < maxSlides) {
+            current++;
+            updatePosition();
+        }
     };
+     // Mise à jour au resize
+    window.addEventListener('resize', () => {
+        current = 0; 
+        updatePosition();
+    });
+    
+ 
+    setTimeout(updatePosition, 100); 
 }
 
 let attempts = 0;

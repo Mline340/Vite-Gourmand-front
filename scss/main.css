@@ -12287,8 +12287,13 @@ img {
   padding: 0 60px;
 }
 
+.avis-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
 .avis-container {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   padding: 1rem;
@@ -12296,6 +12301,7 @@ img {
 }
 
 .avis-card {
+  flex: 0 0 calc(25% - 1.125rem);
   padding: 1.5rem;
   background: white;
   border-radius: 12px;
@@ -12356,6 +12362,19 @@ img {
   transform: translateY(-50%) scale(1.1);
 }
 
+@media (max-width: 768px) {
+  .avis-card {
+    flex: 0 0 100%;
+  }
+  .avis-carousel {
+    padding: 0 50px;
+  }
+  .carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1.4rem;
+  }
+}
 table {
   width: 90%;
   max-width: 1000px;
@@ -12410,14 +12429,20 @@ button {
 main {
   margin-bottom: 350px;
 }
+@media (max-width: 768px) {
+  main {
+    margin-bottom: 400px;
+  }
+}
 
 footer.footer {
   position: absolute;
-  bottom: 0%;
+  bottom: 0;
   width: 100%;
   background-color: #B03A51;
   font-family: "Mooli", sans-serif;
   color: white;
+  padding: 20px 0;
 }
 
 #horaires-footer h4, #horaires-footer .h4 {
