@@ -93,7 +93,7 @@ function renderOrders(commandes) {
               <p class="mb-2"><strong>Date commande :</strong> ${new Date(cmd.date_commande).toLocaleDateString('fr-FR')}</p>
               <p class="mb-2"><strong>Date prestation :</strong> ${new Date(cmd.date_prestation).toLocaleDateString('fr-FR')} à ${new Date(cmd.heure_liv).toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'})}</p>
               <p class="mb-2"><strong>Personnes :</strong> ${escapeHtml(String(cmd.nombre_personne))}</p>
-            </div>
+              </div>
          <div class="col-md-6">   
               <p class="mb-2"><strong>Prix menu :</strong> ${escapeHtml(String(cmd.prix_menu))} €</p>
               <p class="mb-2"><strong>Prix liv :</strong> ${escapeHtml(String(cmd.prix_liv))} €</p>

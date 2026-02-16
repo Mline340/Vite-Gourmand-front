@@ -441,13 +441,17 @@ function initialiserFormulaireCommande() {
     if (nbPersonnesInput) {
         nbPersonnesInput.addEventListener('input', function() {
             const min = parseInt(this.min) || 1;
+            const max = menuSelectionne?.quantite_restante || 999;
             const valeur = parseInt(this.value) || min;
             
             if (valeur < min) {
                 this.value = min;
                 afficherAvertissement(`Le nombre minimum de personnes pour ce menu est ${min}.`);
             }
-            
+            if (valeur > max) {
+            this.value = max;
+            afficherAvertissement(`Seulement ${max} portion(s) disponible(s) pour ce menu.`);
+        }
             calculerPrixTotal();
         });
     }
@@ -480,9 +484,18 @@ async function soumettreCommande() {
     try {
         // Récupérer les données du formulaire
         const formData = new FormData(document.getElementById('form-commande'));
-
-        // On calcule le prix total (Prix Menu * nb personnes + livraison)
         const nbPers = parseInt(formData.get('nombre_personne')) || 1;
+        
+        // ✅ NOUVELLE VALIDATION : Vérifier la quantité disponible
+        if (!menuSelectionne || menuSelectionne.quantite_restante === undefined) {
+            throw new Error('Informations du menu non disponibles');
+        }
+        
+        if (nbPers > menuSelectionne.quantite_restante) {
+            throw new Error(`Désolé, il ne reste que ${menuSelectionne.quantite_restante} portion(s) disponible(s) pour ce menu.`);
+        }
+        
+        // On calcule le prix total (Prix Menu * nb personnes + livraison)
         const prixParPersonne = menuSelectionne.prix_par_personne || 0;
         let prixMenuTotal = nbPers * prixParPersonne;
 
