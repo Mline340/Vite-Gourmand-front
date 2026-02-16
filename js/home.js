@@ -87,20 +87,18 @@ function setupCarousel(total) {
     }
     
     function updatePosition() {
-        if (isMobile()) {
-            // Mobile : déplace de (largeur carte + gap)
-            const cardElement = container.querySelector('.avis-card');
-            if (cardElement) {
-                const cardWidth = cardElement.offsetWidth;
-                const gap = 16; 
-                container.style.transform = `translateX(-${current * (cardWidth + gap)}px)`;
-            }
-        } else {
-            // Desktop : 25% par carte
-            container.style.transform = `translateX(-${current * 25}%)`;
-        }
+        const cardElement = container.querySelector('.avis-card');
+        if (!cardElement) return;
+        
+        // Calcul du déplacement basé sur la largeur réelle d'une carte + gap
+        const cardWidth = cardElement.offsetWidth;
+         const gap = isMobile() ? 8 : 16;
+        const moveDistance = cardWidth + gap;
+        
+        container.style.transform = `translateX(-${current * moveDistance}px)`;
     }
     
+    // Bouton précédent
     if (prevBtn) prevBtn.onclick = () => {
         if (current > 0) {
             current--;
@@ -108,21 +106,24 @@ function setupCarousel(total) {
         }
     };
     
+    // Bouton suivant
     if (nextBtn) nextBtn.onclick = () => {
-        const maxSlides = isMobile() ? total - 1 : total - 4;
+        const visibleCards = isMobile() ? 1 : 4;
+        const maxSlides = Math.max(0, total - visibleCards);
+        
         if (current < maxSlides) {
             current++;
             updatePosition();
         }
     };
-     // Mise à jour au resize
+    
+    // Mise à jour au resize
     window.addEventListener('resize', () => {
         current = 0; 
         updatePosition();
     });
     
- 
-    setTimeout(updatePosition, 100); 
+    updatePosition();
 }
 
 let attempts = 0;

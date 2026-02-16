@@ -40,7 +40,16 @@ async function loadStats() {
         });
         
         const data = await response.json();
-        allStats = data.member || data;
+        const stats = data.member || data;
+        
+        // Stocker avec menuId pour le filtrage
+        allStats = stats.map(s => ({
+            menuId: s.menuId,
+            menuLibelle: s.menuLibelle,
+            nombreCommandes: s.nombreCommandes,
+            chiffreAffaires: s.chiffreAffaires,
+            prixParPersonne: s.prixParPersonne
+        }));
         
         createChart(allStats);
         createFilters(allStats);
@@ -168,23 +177,78 @@ function createFilters(stats) {
 }
 
 // 🆕 APPLIQUER LES FILTRES
-function applyFilters() {
+async function applyFilters() {
     const menuValue = document.getElementById('menuFilter').value;
     const periodValue = document.getElementById('periodFilter').value;
     const dateValue = document.getElementById('dateFilter').value;
     
-    let filteredStats = [...allStats];
+    // Construire l'URL avec paramètres
+    let url = `${apiUrl}admin/stats/commandes-par-menu`;
+    const params = new URLSearchParams();
     
-    // Filtrer par menu
+    // Filtre par menu
     if (menuValue) {
-        filteredStats = filteredStats.filter(s => s.menuLibelle === menuValue);
+        const menuId = allStats.find(s => s.menuLibelle === menuValue)?.menuId;
+        if (menuId) params.append('menuId', menuId);
     }
     
-    // TODO: Appliquer filtre période (nécessite dates dans l'API)
-    console.log('Filtre période:', periodValue);
-    console.log('Filtre date:', dateValue);
+    // Filtre par date précise
+    if (dateValue) {
+        params.append('dateDebut', dateValue);
+        params.append('dateFin', dateValue);
+    } 
+    // Filtre par période
+    else if (periodValue !== 'Toutes périodes') {
+        const dates = calculerPeriode(periodValue);
+        if (dates.debut) params.append('dateDebut', dates.debut);
+        if (dates.fin) params.append('dateFin', dates.fin);
+    }
     
-    createTable(filteredStats);
+    if (params.toString()) url += '?' + params.toString();
+    
+    console.log('🔍 URL API:', url);
+    
+    // Appeler l'API
+    try {
+        const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        const stats = data.member || data;
+        console.log('✅ Stats filtrées:', stats);
+        createTable(stats);
+    } catch (error) {
+        console.error('Erreur filtrage:', error);
+    }
+}
+
+// Calculer les dates selon la période
+function calculerPeriode(periode) {
+    const aujourd = new Date();
+    let debut = null;
+    let fin = aujourd.toISOString().split('T')[0];
+    
+    switch(periode) {
+        case '7 derniers jours':
+            debut = new Date(aujourd);
+            debut.setDate(debut.getDate() - 7);
+            break;
+        case '30 derniers jours':
+            debut = new Date(aujourd);
+            debut.setDate(debut.getDate() - 30);
+            break;
+        case 'Ce mois':
+            debut = new Date(aujourd.getFullYear(), aujourd.getMonth(), 1);
+            break;
+        case 'Cette année':
+            debut = new Date(aujourd.getFullYear(), 0, 1);
+            break;
+    }
+    
+    return {
+        debut: debut ? debut.toISOString().split('T')[0] : null,
+        fin: fin
+    };
 }
 
 function createTable(stats) {
