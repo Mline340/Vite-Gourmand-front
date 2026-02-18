@@ -21,7 +21,7 @@ async function chargerCommande() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+        const response = await fetch(`https://vite-gourmand-back.onrender.com/api/commandes/${commandeId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/ld+json'
@@ -138,7 +138,7 @@ if (formCommande) {
         console.log('📤 Envoi des modifications:', payload);
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+            const response = await fetch(`https://vite-gourmand-back.onrender.com/api/commandes/${commandeId}`, {
                 method: 'PATCH',
                 headers: { 
                     'Content-Type': 'application/merge-patch+json',
@@ -171,7 +171,7 @@ if (btnAnnuler) {
         const token = getToken();
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/commandes/${commandeId}`, {
+            const response = await fetch(`https://vite-gourmand-back.onrender.com/api/commandes/${commandeId}`, {
                 method: 'PATCH',
                 headers: { 
                     'Content-Type': 'application/merge-patch+json',

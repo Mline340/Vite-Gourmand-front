@@ -1,4 +1,4 @@
-const apiUrl = "http://127.0.0.1:8000/api/";
+const apiUrl = "https://vite-gourmand-back.onrender.com/api/";
 const signoutBtn = document.getElementById("signout-btn");
 
 if (signoutBtn) {

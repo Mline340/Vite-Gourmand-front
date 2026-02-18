@@ -27,7 +27,7 @@ async function loadUserOrders() {
         return;
     }
 
-  const endpoint = `http://127.0.0.1:8000/api/commandes`;
+  const endpoint = `https://vite-gourmand-back.onrender.com/api/commandes`;
   console.log("📡 URL commandes:", endpoint);
 
   try {

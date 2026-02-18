@@ -35,7 +35,7 @@ async function loadAccountPage() {
   console.log("✅ Token et userId trouvés, appel API...");
 
   // Construction de l'URL avec l'ID utilisateur
-  const endpoint = `http://127.0.0.1:8000/api/users/${userId}`;
+  const endpoint = `https://vite-gourmand-back.onrender.com/api/users/${userId}`;
   console.log("📡 URL API:", endpoint);
 
   try {
@@ -140,7 +140,7 @@ window.supprimerMonCompte = async function() {
     return;
   }
 
-  const endpoint = `http://127.0.0.1:8000/api/users/${userId}`;
+  const endpoint = `https://vite-gourmand-back.onrender.com/api/users/${userId}`;
   console.log("📡 Envoi requête DELETE vers:", endpoint);
 
   try {

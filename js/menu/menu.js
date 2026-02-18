@@ -312,7 +312,7 @@ async function sauvegarderMenu() {
             const formDataUpload = new FormData();
             formDataUpload.append('photo', photoInput.files[0]);
             
-            const responseUpload = await fetch('http://127.0.0.1:8000/api/upload/photo', {
+            const responseUpload = await fetch('https://vite-gourmand-back.onrender.com/api/upload/photo', {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formDataUpload
