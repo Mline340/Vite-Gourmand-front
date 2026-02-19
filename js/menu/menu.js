@@ -98,13 +98,13 @@ function afficherCartes(menus) {
             console.log("🆔 ID Plat extrait:", platId);
             
             if (premierPlat.photo) {
-                if (premierPlat.photo.startsWith('/uploads')) {
-                    photo = 'http://127.0.0.1:8000' + premierPlat.photo;
-                } else if (premierPlat.photo.startsWith('http')) {
-                    photo = premierPlat.photo;
-                } else {
-                    photo = 'http://127.0.0.1:8000/uploads/photos/' + premierPlat.photo;
-                }
+            if (premierPlat.photo.startsWith('/uploads')) {
+                photo = 'https://vite-gourmand-back.onrender.com' + premierPlat.photo; // ✅
+            } else if (premierPlat.photo.startsWith('http')) {
+                photo = premierPlat.photo; // ✅ déjà une URL complète (Cloudinary plus tard)
+            } else {
+                photo = 'https://vite-gourmand-back.onrender.com/uploads/photos/' + premierPlat.photo; // ✅
+            }
             }
         }
         
