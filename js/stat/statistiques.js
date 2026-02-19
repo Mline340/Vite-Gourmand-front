@@ -331,7 +331,7 @@ async function synchroniserStats() {
     btn.textContent = 'Synchronisation en cours...';
     
     try {
-        const response = await fetch('http://localhost:8000/api/admin/stats/sync', {
+        const response = await fetch('https://vite-gourmand-back.onrender.com/api/admin/stats/sync',{
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
