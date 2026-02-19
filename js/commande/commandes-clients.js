@@ -69,7 +69,7 @@ async function fetchCommandes() {
             if (user.commandes && user.commandes.length > 0) {
                 for (const commandeUrl of user.commandes) {
                     // Fetcher chaque commande
-                    const commandeResponse = await fetch(`http://localhost:8000${commandeUrl}`, {
+                    const commandeResponse = await fetch(`https://vite-gourmand-back.onrender.com${commandeUrl}`, {
                         headers: { 
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json'
