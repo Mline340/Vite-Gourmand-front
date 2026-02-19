@@ -243,6 +243,7 @@ function afficherMenus(menusFiltres) {
     });
 
     console.log("✅ Affichage terminé");
+    showAndHideElementsForRoles();
 }
 
 // ========================================

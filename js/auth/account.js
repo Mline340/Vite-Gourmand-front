@@ -67,13 +67,13 @@ async function loadAccountPage() {
     console.log("✅ Données utilisateur reçues:", data);
 
         const userToStore = {
-            id: data.id,
-            email: data.email,
-            firstname: data.firstname,
-            lastname: data.lastname,
-            phone: data.phone,
-            address: data.address,
-            role: data.role
+             id: data.id,
+             email: data.email,
+             firstname: data.prenom,    
+             lastname: data.nom,         
+             phone: data.tel,            
+             address: data.adresse,      
+             role: data.role
         };
 
     // ✅ On stocke l'objet complet pour les autres pages (commande, profil, etc.)
