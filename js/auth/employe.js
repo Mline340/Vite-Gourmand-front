@@ -3,7 +3,7 @@ setTimeout(() => {
     const token = localStorage.getItem('apiToken');
     
     // CORRECTION : Utiliser le bon ID
-    const formEmploye = document.getElementById("formulaireInscription"); // ← Changé ici
+    const formEmploye = document.getElementById("formulaireEmploye");
     const btnValidationEmploye = document.getElementById("btn-validation-employe");
     const inputMail = document.getElementById("EmailInput");
     const inputPassword = document.getElementById("PasswordInput");
