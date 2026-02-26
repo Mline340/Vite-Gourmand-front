@@ -9,12 +9,8 @@ function escapeHtml(text) {
 async function loadAvis() {
     try {
         const url = `${apiUrl}avis/valides?statut=validé&order[dateCreation]=desc&pagination=false`;
-        console.log("📡 URL appelée:", url);
-        
         const response = await fetch(url);
-        
-        console.log("📊 Statut réponse:", response.status);
-        
+            
         if (!response.ok) {
             console.error('Erreur HTTP:', response.status);
             const errorText = await response.text();
@@ -23,11 +19,9 @@ async function loadAvis() {
         }
         
         const data = await response.json();
-        console.log('📦 Données complètes:', data);
-
+    
         const avis = data['hydra:member'] || data.member || [];
-        console.log('📌 Avis à afficher:', avis);
-
+    
         displayAvis(avis);
     } catch (error) {
         console.error('Erreur chargement avis:', error);
@@ -67,7 +61,7 @@ function displayAvis(avis) {
         // Description
         const description = document.createElement('p');
         description.className = 'mt-2';
-        description.textContent = a.description; // ✅ textContent protège contre XSS
+        description.textContent = a.description; 
         card.appendChild(description);
         
         container.appendChild(card);
